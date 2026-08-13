@@ -57,6 +57,25 @@ sentence does. Commit the file to this repo and link it with a **relative**
 path, which is what makes it render on GitHub: `![alt text](docs/before.png)`.
 Images don't count towards the word count and don't replace the citation.
 
+### Draft moment: scoping the topic (fill in citation, edit freely)
+
+> My first idea was an explainer of content modelling in general --- fields,
+> taxonomy, components, media --- but that stayed abstract: a visitor with no
+> CMS background wouldn't know what to do with a free-form sort-into-buckets
+> interaction, and four separate concepts risked reading as four flashcards
+> instead of one idea. Instead of building the sandbox I'd first pictured, I
+> narrowed to one concrete content type (a movie), then changed the payoff from
+> "tidy up one record" to "unlock real capability across a whole catalog" ---
+> the visitor extracts genre/cast/poster/fields from one movie's raw text blob,
+> and each extraction turns on a filter or search feature across every movie in
+> the listing, not just the one being edited. I checked this against the
+> published spec before building anything: it gives a single interaction
+> concrete enough to state as a test (e.g. the genre filter doesn't exist until
+> the taxonomy step runs, and returns correct results after), and it collapses
+> four concepts into one idea rather than four, which the brief asks for
+> explicitly.
+> [ADD CITATION: commit/range once the schema + guided-step plan is committed]
+
 ### A worked moment, for shape
 
 Delete this section along with the rest of the boilerplate --- it's here to show
