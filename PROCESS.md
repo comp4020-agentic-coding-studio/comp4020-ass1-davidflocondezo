@@ -76,6 +76,25 @@ Images don't count towards the word count and don't replace the citation.
 > explicitly.
 > [ADD CITATION: commit/range once the schema + guided-step plan is committed]
 
+### Draft moment: one editable panel, not every card (fill in citation, edit freely)
+
+> My first version of the grid gave every card the same clickable-looking blob
+> text as the worked example, on the assumption that visual consistency across
+> cards was the goal. That created a real ambiguity: with 8-12 cards all
+> reading as "click me", a visitor has no way to tell which one is the actual
+> exercise and which are just... other movies. Instead of making every card
+> interactive, I moved to one dedicated panel as the only place phrases are
+> clickable, and left every other card's blob visible but inert --- plain text,
+> no clickable styling. To keep the catalog-wide payoff visible rather than
+> asserted, those inert blobs update passively: the moment a step completes in
+> the panel, the matching phrase in every other card's blob gets the same
+> highlight and flips to its structured form, in sync. I checked this against
+> the affordance problem directly (only one thing in the UI should read as "do
+> this") and against build cost: the highlight reuses the same structured data
+> and trigger already needed to unlock the catalog-wide filters, not a second
+> mechanism, so the fix didn't add a new class of work.
+> [ADD CITATION: commit/range once the panel/echo interaction lands in code or spec]
+
 ### A worked moment, for shape
 
 Delete this section along with the rest of the boilerplate --- it's here to show
