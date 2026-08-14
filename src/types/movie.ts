@@ -28,3 +28,29 @@ export type Movie = {
   // Media — an asset with its own metadata, not a bare URL.
   poster: { url: string; alt: string; credit: string };
 };
+
+// A movie's raw, unstructured form: the messy paragraph a real CMS import
+// would hand you before anyone has modelled it. `anchors` points at exactly
+// which substring of `blob` corresponds to each piece of `data`, so the same
+// lookup (`blob.indexOf(anchor)`) drives both the worked example's clickable
+// extraction and every other card's passive, non-interactive echo — there's
+// only one mechanism, not two. Anchors are plain substrings rather than
+// inline markup so `data` stays the single source of truth for actual
+// values; a differently *worded* anchor (e.g. "summer of 1994" in prose vs.
+// "1994-07-06" in `data`) is fine, and `spec/dataset.test.ts` catches any
+// anchor that doesn't actually appear in its movie's blob.
+export type Anchors = {
+  releaseDate: string;
+  plot: string;
+  genres: string[]; // same order as data.genres
+  director: string[]; // same order as data.director
+  cast: { actor: string; character: string; anchor: string }[]; // anchor covers both names together, keeping the pairing intact in the blob too
+  poster: { anchor: string; credit: string }; // anchor becomes alt text once extracted
+};
+
+export type MovieRecord = {
+  id: string; // stable kebab-case key, e.g. "alien"
+  blob: string;
+  data: Movie;
+  anchors: Anchors;
+};
