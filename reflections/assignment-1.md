@@ -2,19 +2,19 @@
 
 **What was the breakthrough that moved the work forward?**
 
-I think the breakthrough was close to the start when I had my topic idea but 
-was still forming how it would turn into an interactive explainer. My idea was 
+I think the breakthrough was near start when I had my topic idea but 
+was still forming it into an interactive explainer. My idea was 
 very broad and technical and I wasn't really grasping that this explainer is 
 suppposed to "explain". In my head I was seeing it more like this topic is 
-important so lets do a whole exercise of actually doing content modelling. 
-So this meant that I was planning to have content type templates and have 
-the user start analysing content and start coming up with ideas for types 
-of fields, content, and views. I had some back and forth with the agent and 
+important so lets do a whole exercise of actually content modelling. 
+So this meant that I was planning to have the user start analysing content 
+and start coming up with ideas for types of fields, content types, and views. 
+I had some back and forth with the agent and 
 realised that i'm not really explaining but just getting straight to the 
 "Do the content modelling on a complex piece of content". Which didn't 
 really give the idea to the user of why its important. So when I realised 
 this I was able to scale it back to something that was not only relatable 
-(movies) but also to focusing on the idea of "why its important"
+(movies) but also focusing on the idea of "why its important"
 
 
 **What did this work change about who I want to be as a software developer?**
