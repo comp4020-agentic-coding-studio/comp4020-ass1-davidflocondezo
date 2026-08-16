@@ -440,8 +440,10 @@ button.anchor.revealed {
 
 .intro-content h1 {
   margin: 0;
+  width: 100%;
+  max-width: 72rem;
   font-size: 2.25rem;
-  text-align: center;
+  text-align: left;
 }
 
 .intro-grid {
@@ -454,7 +456,7 @@ button.anchor.revealed {
 }
 
 .intro-copy {
-  font-size: 1.1rem;
+  font-size: 1.35rem;
   color: #444;
 }
 
