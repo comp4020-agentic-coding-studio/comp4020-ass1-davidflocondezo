@@ -86,7 +86,12 @@ export function wireUpExtraction(root: ParentNode): void {
     }
 
     if (allDone) {
-      searchHint.textContent = COMPLETION_MESSAGE;
+      searchHint.textContent =
+        visibleCount === 0
+          ? query !== ""
+            ? `No results for "${query}" — try a different search or filter.`
+            : "No results — try a different filter."
+          : COMPLETION_MESSAGE;
       return;
     }
 

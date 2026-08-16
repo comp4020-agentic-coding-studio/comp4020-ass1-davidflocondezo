@@ -30,13 +30,16 @@ const gridMovies = movies.filter((m) => m.id !== PANEL_MOVIE_ID);
         <SearchControl />
         <SortControl />
       </div>
-      <StepGuidance />
       <FilterPanel />
-      <MoviePanel movie={panelMovie} />
 
-      <ul class="movie-grid">
-        {gridMovies.map((movie) => <MovieCard movie={movie} />)}
-      </ul>
+      <div class="catalog-content">
+        <StepGuidance />
+        <MoviePanel movie={panelMovie} />
+
+        <ul class="movie-grid">
+          {gridMovies.map((movie) => <MovieCard movie={movie} />)}
+        </ul>
+      </div>
     </div>
   </main>
   <script src="../scripts/main.ts"></script>

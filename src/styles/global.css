@@ -15,6 +15,12 @@ a {
   color: #0b5fff;
 }
 
+h1,
+h2,
+h3 {
+  color: #001871;
+}
+
 .blob {
   background: #f7f7f9;
   border: 1px solid #ddd;
@@ -241,9 +247,7 @@ button.anchor.revealed {
   grid-template-columns: 12rem 1fr;
   grid-template-areas:
     "spacer topbar"
-    "filters guidance"
-    "filters panel"
-    "filters grid";
+    "filters content";
   align-items: start;
   column-gap: 1.5rem;
   margin: 1.5rem 0;
@@ -253,9 +257,17 @@ button.anchor.revealed {
   grid-template-columns: 1fr;
   grid-template-areas:
     "topbar"
-    "guidance"
-    "panel"
-    "grid";
+    "content";
+}
+
+/* A single "content" row (rather than filters spanning the guidance/panel/grid
+   rows individually) keeps the filter sidebar from ever being taller than the
+   rows it spans --- which, with three separate auto rows, forced extra height
+   into the guidance row whenever the grid emptied out (e.g. a no-results
+   search) even though nothing about the guidance box itself had changed. */
+.catalog-content {
+  grid-area: content;
+  min-width: 0;
 }
 
 .layout-spacer {
@@ -280,6 +292,7 @@ button.anchor.revealed {
   margin-bottom: 0.25rem;
   font-size: 1.17em;
   font-weight: 600;
+  color: #001871;
 }
 
 .search-control input {
@@ -365,6 +378,7 @@ button.anchor.revealed {
   padding: 0;
   font-size: 1.17em;
   font-weight: 600;
+  color: #001871;
 }
 
 .filter-option {
@@ -407,6 +421,13 @@ button.anchor.revealed {
       "filters"
       "panel"
       "grid";
+  }
+
+  /* Single column means nothing spans multiple rows, so the wrapper can drop
+     out of the box tree and let guidance/panel/grid resume being placed by
+     their own named areas --- interleaved with filters, not grouped after it. */
+  .catalog-content {
+    display: contents;
   }
 
   .layout-spacer {
