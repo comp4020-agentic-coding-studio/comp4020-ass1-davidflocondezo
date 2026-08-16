@@ -473,6 +473,7 @@ button.anchor.revealed {
 .book-page,
 .intro-frame {
   position: absolute;
+  z-index: 1;
   inset: 0;
   opacity: 0;
 }
@@ -510,6 +511,24 @@ button.anchor.revealed {
   color: #fff;
   background: #001871;
   animation-delay: 0s;
+  box-shadow: 4px 4px 10px rgb(0 0 0 / 15%);
+}
+
+/* The cover is the whole closed book (hinged at the container's true left
+   edge), but once "opened" each vocabulary page only occupies the right
+   half of .intro-animation --- .book-left-page (below) fills the other
+   half so the book always reads as an open two-page spread, not a single
+   flipping rectangle. Flattening the spine-side corners and border, plus
+   an inset shadow, sells the gutter where the two leaves meet. */
+.book-types,
+.book-fields,
+.book-taxonomy,
+.book-components {
+  inset: 0 0 0 50%;
+  border-left: none;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  box-shadow: inset 10px 0 14px -10px rgb(0 0 0 / 30%);
 }
 
 .book-types {
@@ -526,6 +545,23 @@ button.anchor.revealed {
 
 .book-components {
   animation-delay: -11s;
+}
+
+/* Static left-hand leaf of the open book, visible only while the
+   vocabulary pages (right leaf) are on screen --- see
+   intro-book-left-page below for that window. */
+.book-left-page {
+  position: absolute;
+  z-index: 0;
+  inset: 0 50% 0 0;
+  background: #fff;
+  border: 2px solid #001871;
+  border-right: none;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  box-shadow: inset -10px 0 14px -10px rgb(0 0 0 / 35%);
+  opacity: 0;
+  animation: intro-book-left-page 19s ease-in-out infinite;
 }
 
 .intro-frame {
@@ -641,6 +677,27 @@ button.anchor.revealed {
   }
 }
 
+/* Just one instance (not the shared-delay carousel above), so its window
+   is authored directly in real-time percentages: opaque across the whole
+   2s-10s span the four vocabulary pages collectively occupy, with short
+   fades timed to match their own flip fades at each end. */
+@keyframes intro-book-left-page {
+  0%,
+  8.95%,
+  100% {
+    opacity: 0;
+  }
+
+  12.11%,
+  50% {
+    opacity: 1;
+  }
+
+  53.68% {
+    opacity: 0;
+  }
+}
+
 @keyframes intro-movie-text {
   0%,
   1.05%,
@@ -678,6 +735,7 @@ button.anchor.revealed {
 @media (prefers-reduced-motion: reduce) {
   .intro-screen,
   .book-page,
+  .book-left-page,
   .intro-frame,
   .intro-card,
   .page-content {
@@ -686,6 +744,7 @@ button.anchor.revealed {
   }
 
   .book-page,
+  .book-left-page,
   .movie-spiderman,
   .movie-martian {
     display: none;
