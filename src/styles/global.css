@@ -413,7 +413,13 @@ button.anchor.revealed {
     padding: 1rem;
   }
 
-  .catalog-layout {
+  /* .no-filters must be listed explicitly here too, matching specificity
+     with the base ".catalog-layout.no-filters" rule above --- otherwise that
+     rule (same specificity, but earlier in the file) loses the tie and the
+     initial no-filters state never gets this mobile stack, even though the
+     media query matches. */
+  .catalog-layout,
+  .catalog-layout.no-filters {
     grid-template-columns: 1fr;
     grid-template-areas:
       "topbar"
