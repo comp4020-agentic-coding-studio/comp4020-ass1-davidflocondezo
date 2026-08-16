@@ -462,7 +462,9 @@ button.anchor.revealed {
 
 .intro-animation {
   position: relative;
-  height: 18rem;
+  max-width: 26rem;
+  height: 13.5rem;
+  margin: 0 auto;
   perspective: 1200px;
 }
 
@@ -772,7 +774,7 @@ button.anchor.revealed {
   }
 
   .intro-animation {
-    height: 14rem;
+    height: 11rem;
   }
 
   /* .no-filters must be listed explicitly here too, matching specificity
