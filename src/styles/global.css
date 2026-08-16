@@ -446,6 +446,10 @@ button.anchor.revealed {
   text-align: left;
 }
 
+.intro-title-main {
+  font-size: 3rem;
+}
+
 .intro-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
