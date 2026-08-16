@@ -25,7 +25,8 @@ describe("requiredKeys", () => {
 
   it("counts Alien's required anchors per facet", () => {
     expect(requiredKeys(anchors, "releaseDate")).toHaveLength(1);
-    expect(requiredKeys(anchors, "taxonomy")).toHaveLength(3);
+    expect(requiredKeys(anchors, "genre")).toHaveLength(2);
+    expect(requiredKeys(anchors, "director")).toHaveLength(1);
     expect(requiredKeys(anchors, "component")).toHaveLength(2);
     expect(requiredKeys(anchors, "media")).toHaveLength(1);
     expect(requiredKeys(anchors, "plot")).toHaveLength(4);

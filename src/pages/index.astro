@@ -2,7 +2,10 @@
 import Layout from "../layouts/Layout.astro";
 import MoviePanel from "../components/MoviePanel.astro";
 import MovieCard from "../components/MovieCard.astro";
-import CatalogControls from "../components/CatalogControls.astro";
+import FilterPanel from "../components/FilterPanel.astro";
+import SearchControl from "../components/SearchControl.astro";
+import SortControl from "../components/SortControl.astro";
+import StepGuidance from "../components/StepGuidance.astro";
 import { movies, PANEL_MOVIE_ID } from "../data/movies";
 
 const panelMovie = movies.find((m) => m.id === PANEL_MOVIE_ID);
@@ -18,21 +21,21 @@ const gridMovies = movies.filter((m) => m.id !== PANEL_MOVIE_ID);
   </header>
   <main>
     <h1>Content modelling, worked through one movie</h1>
-    <p>
-      Click phrases in <strong>{panelMovie.data.title}</strong>'s raw text
-      below to extract them into structured data. Each extraction demonstrates
-      one facet of the content model — release date, taxonomy, cast, poster,
-      plot — and unlocks a matching feature across every other movie in the
-      catalog below.
-    </p>
 
-    <MoviePanel movie={panelMovie} />
+    <div class="catalog-layout">
+      <div class="layout-spacer" aria-hidden="true"></div>
+      <div class="panel-topbar">
+        <SearchControl />
+        <SortControl />
+      </div>
+      <StepGuidance />
+      <FilterPanel />
+      <MoviePanel movie={panelMovie} />
 
-    <CatalogControls />
-
-    <ul class="movie-grid">
-      {gridMovies.map((movie) => <MovieCard movie={movie} />)}
-    </ul>
+      <ul class="movie-grid">
+        {gridMovies.map((movie) => <MovieCard movie={movie} />)}
+      </ul>
+    </div>
   </main>
   <script src="../scripts/main.ts"></script>
 </Layout>

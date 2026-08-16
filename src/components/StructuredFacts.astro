@@ -16,38 +16,41 @@ const posterSrc = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/${data.poster.
 ---
 
 <div class="structured-facts" data-movie={movie.id}>
-  <section data-facet="releaseDate" hidden>
-    <h3>Release date</h3>
-    <p>{formatReleaseDate(data.releaseDate)}</p>
-  </section>
-
-  <section data-facet="taxonomy" hidden>
-    <h3>Taxonomy</h3>
-    <p><strong>Genres:</strong> {data.genres.join(", ")}</p>
-    <p><strong>Director:</strong> {data.director.join(", ")}</p>
-  </section>
-
-  <section data-facet="component" hidden>
-    <h3>Cast</h3>
-    <ul>
-      {
-        data.cast.map((c) => (
-          <li>
-            {c.actor} as {c.character}
-          </li>
-        ))
-      }
-    </ul>
-  </section>
-
-  <section data-facet="media" hidden>
-    <h3>Poster</h3>
+  <section data-facet="media" hidden class="poster">
     <img src={posterSrc} alt={data.poster.alt} />
     <p class="credit">{data.poster.credit}</p>
   </section>
 
-  <section data-facet="plot" hidden>
-    <h3>Plot</h3>
-    <p>{data.plot}</p>
-  </section>
+  <div class="facts-details">
+    <div class="fact-row">
+      <section data-facet="releaseDate" hidden>
+        <p><strong>Release date:</strong> {formatReleaseDate(data.releaseDate)}</p>
+      </section>
+
+      <section data-facet="genre" hidden>
+        <p><strong>Genre:</strong> {data.genres.join(", ")}</p>
+      </section>
+    </div>
+
+    <section data-facet="director" hidden>
+      <p><strong>Director:</strong> {data.director.join(", ")}</p>
+    </section>
+
+    <section data-facet="component" hidden>
+      <p><strong>Cast:</strong></p>
+      <ul>
+        {
+          data.cast.map((c) => (
+            <li>
+              {c.actor} as {c.character}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section data-facet="plot" hidden>
+      <p><strong>Plot:</strong> {data.plot}</p>
+    </section>
+  </div>
 </div>

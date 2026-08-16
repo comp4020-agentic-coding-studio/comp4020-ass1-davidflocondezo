@@ -1,0 +1,25 @@
+---
+// Catalog-wide filters, unlocked by completing the matching facet in the
+// panel. Media and Plot don't unlock a control here at all — their payoff is
+// the per-card reveal in StructuredFacts.
+import { movies, PANEL_MOVIE_ID } from "../data/movies";
+
+const gridMovies = movies.filter((m) => m.id !== PANEL_MOVIE_ID);
+const genres = [...new Set(gridMovies.flatMap((m) => m.data.genres))].sort();
+const directors = [...new Set(gridMovies.flatMap((m) => m.data.director))].sort();
+---
+
+<aside class="filter-panel" aria-label="Filters">
+  <div data-control="genre" hidden class="filter-group">
+    <label for="genre-filter">Genre</label>
+    <select id="genre-filter" multiple size={Math.min(genres.length, 6)}>
+      {genres.map((genre) => <option value={genre}>{genre}</option>)}
+    </select>
+  </div>
+  <div data-control="director" hidden class="filter-group">
+    <label for="director-filter">Director</label>
+    <select id="director-filter" multiple size={Math.min(directors.length, 6)}>
+      {directors.map((director) => <option value={director}>{director}</option>)}
+    </select>
+  </div>
+</aside>

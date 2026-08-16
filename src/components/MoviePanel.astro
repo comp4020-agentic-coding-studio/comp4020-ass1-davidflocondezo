@@ -5,6 +5,8 @@
 // reads as "click me".
 import BlobText from "./BlobText.astro";
 import StructuredFacts from "./StructuredFacts.astro";
+import { collectAnchors, requiredKeys } from "../lib/segment";
+import type { FacetGroup } from "../types/facets";
 import type { MovieRecord } from "../types/movie";
 
 interface Props {
@@ -12,29 +14,57 @@ interface Props {
 }
 
 const { movie } = Astro.props;
+const anchors = collectAnchors(movie);
 
-const steps: { facet: string; label: string }[] = [
+const stepLabels: { facet: FacetGroup; label: string }[] = [
   { facet: "releaseDate", label: "Release date" },
-  { facet: "taxonomy", label: "Taxonomy (genres + director)" },
+  { facet: "genre", label: "Genre" },
+  { facet: "director", label: "Director" },
   { facet: "component", label: "Cast" },
   { facet: "media", label: "Poster" },
   { facet: "plot", label: "Plot" },
 ];
+
+const steps = stepLabels.map(({ facet, label }) => ({
+  facet,
+  label,
+  total: requiredKeys(anchors, facet).length,
+}));
 ---
 
-<section class="movie-panel" aria-labelledby="panel-heading">
-  <h2 id="panel-heading">{movie.data.title}</h2>
-  <p class="panel-intro">
-    Click a phrase below to extract it into the movie's structured data. Every
-    phrase is clickable in any order — the steps are a suggested reading path,
-    not a requirement.
-  </p>
+<section class="movie-panel" aria-labelledby="panel-heading" hidden>
+  <div class="panel-header">
+    <h2 id="panel-heading">{movie.data.title}</h2>
+    <button
+      type="button"
+      class="panel-collapse-toggle"
+      aria-expanded="true"
+      aria-controls="panel-body"
+      data-panel-collapse
+    >
+      Collapse
+    </button>
+  </div>
 
-  <ol class="guided-steps">
-    {steps.map((step) => <li data-facet={step.facet}>{step.label}</li>)}
-  </ol>
+  <div class="panel-body" id="panel-body">
+    <p class="panel-intro">
+      Click a phrase below to extract it into the movie's structured data. Every
+      phrase is clickable in any order — the steps are a suggested reading path,
+      not a requirement.
+    </p>
 
-  <BlobText movie={movie} interactive />
+    <ol class="guided-steps">
+      {
+        steps.map((step) => (
+          <li data-facet={step.facet}>
+            {step.label} <span class="step-progress" data-facet-progress={step.facet}>{`0/${step.total}`}</span>
+          </li>
+        ))
+      }
+    </ol>
 
-  <StructuredFacts movie={movie} />
+    <BlobText movie={movie} interactive />
+
+    <StructuredFacts movie={movie} />
+  </div>
 </section>

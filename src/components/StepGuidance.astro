@@ -1,0 +1,12 @@
+---
+// The one guidance box for the whole page. It opens by nudging the visitor
+// to search for a genre (which always comes up empty — genre isn't
+// searchable text, only title/cast are), explains why once they try it, and
+// then narrates the extraction steps below it. Every future step-by-step
+// nudge belongs here rather than in a new element.
+---
+
+<section class="step-guidance">
+  <p data-search-hint>Try searching for a genre, like "horror" — see what happens.</p>
+  <button type="button" class="guidance-next" data-guidance-next hidden>Next</button>
+</section>

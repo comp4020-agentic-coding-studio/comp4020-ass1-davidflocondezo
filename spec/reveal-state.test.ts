@@ -3,7 +3,8 @@ import { click, createRevealState, type RequiredKeysByFacet } from "../src/lib/r
 
 const required: RequiredKeysByFacet = {
   releaseDate: ["releaseDate"],
-  taxonomy: ["genres:0", "director:0"],
+  genre: ["genres:0"],
+  director: ["director:0"],
   component: ["cast:0", "cast:1"],
   media: ["poster"],
   plot: ["plot:0", "plot:1"],

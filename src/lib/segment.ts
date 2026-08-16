@@ -26,10 +26,10 @@ export function collectAnchors(movie: MovieRecord): Anchor[] {
   ];
 
   anchors.genres.forEach((text, i) => {
-    list.push({ facet: "taxonomy", key: `genres:${i}`, text, countsTowardCompletion: true });
+    list.push({ facet: "genre", key: `genres:${i}`, text, countsTowardCompletion: true });
   });
   anchors.director.forEach((text, i) => {
-    list.push({ facet: "taxonomy", key: `director:${i}`, text, countsTowardCompletion: true });
+    list.push({ facet: "director", key: `director:${i}`, text, countsTowardCompletion: true });
   });
 
   anchors.cast.forEach((c, i) => {
