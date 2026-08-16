@@ -414,7 +414,6 @@ button.anchor.revealed {
   z-index: 10;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: 2rem;
   padding: 3rem;
   background: #fff;
@@ -426,6 +425,25 @@ button.anchor.revealed {
   pointer-events: none;
 }
 
+/* Everything but the button is grouped here so it can be centered as a
+   unit in the leftover space above the button, instead of pinned to the
+   top the way space-between on .intro-screen used to leave it. */
+.intro-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  min-height: 0;
+}
+
+.intro-content h1 {
+  margin: 0;
+  font-size: 2.25rem;
+  text-align: center;
+}
+
 .intro-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -433,15 +451,9 @@ button.anchor.revealed {
   gap: 3rem;
   max-width: 72rem;
   width: 100%;
-  margin: 0 auto;
 }
 
-.intro-copy h1 {
-  margin-top: 0;
-  font-size: 2.25rem;
-}
-
-.intro-copy p {
+.intro-copy {
   font-size: 1.1rem;
   color: #444;
 }
@@ -449,28 +461,93 @@ button.anchor.revealed {
 .intro-animation {
   position: relative;
   height: 18rem;
+  perspective: 1200px;
 }
 
+/* One shared 19s loop: a 5-page "book" (2s per page) flips through the
+   modelling vocabulary, then hands off to the 3 movie frames (3s each,
+   9s total) before repeating --- see the offset comment below each group
+   for how the per-item `animation-delay` places it in that timeline. */
+.book-page,
 .intro-frame {
   position: absolute;
   inset: 0;
+  opacity: 0;
+}
+
+.book-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  color: #001871;
+  background: #fff;
+  border: 2px solid #001871;
+  border-radius: 0.5rem;
+  transform-origin: left center;
+  backface-visibility: hidden;
+  animation: intro-book-page 19s ease-in-out infinite;
+}
+
+.book-page .book-label {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Each page's keyframe window is authored at the *start* of the 19s
+   timeline (0-10.53%), so scheduling it to appear at forward-order offset
+   O needs delay -(19 - O), not -O --- a negative delay of -O makes the
+   animation's local clock read `t + O` at real time t, so its window
+   actually lands at real time `19 - O`, i.e. the reverse order (confirmed
+   by sampling computed opacity across the loop: -O produced
+   cover-last/martian-first). -(19 - O) is what actually lands the window
+   at real time O. Intended forward order/offsets: cover 0s, types 2s,
+   fields 4s, taxonomy 6s, components 8s. */
+.book-cover {
+  color: #fff;
+  background: #001871;
+  animation-delay: 0s;
+}
+
+.book-types {
+  animation-delay: -17s;
+}
+
+.book-fields {
+  animation-delay: -15s;
+}
+
+.book-taxonomy {
+  animation-delay: -13s;
+}
+
+.book-components {
+  animation-delay: -11s;
+}
+
+.intro-frame {
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
-  opacity: 0;
+  animation: intro-movie-text 19s ease-in-out infinite;
 }
 
-.intro-frame:nth-child(1) {
-  animation: intro-cycle-1 9s ease-in-out infinite;
+/* Continues straight on from the book pages at forward offsets 10s, 13s,
+   16s (each a 3s window, ending exactly at the 19s loop boundary) --- see
+   the book-page comment above for why the delay is -(19 - offset), not
+   -offset. */
+.movie-alien {
+  animation-delay: -9s;
 }
 
-.intro-frame:nth-child(2) {
-  animation: intro-cycle-2 9s ease-in-out infinite;
+.movie-spiderman {
+  animation-delay: -6s;
 }
 
-.intro-frame:nth-child(3) {
-  animation: intro-cycle-3 9s ease-in-out infinite;
+.movie-martian {
+  animation-delay: -3s;
 }
 
 .intro-raw {
@@ -485,18 +562,19 @@ button.anchor.revealed {
   border: 1px solid #ddd;
   border-radius: 0.5rem;
   opacity: 0;
+  animation: intro-movie-card 19s ease-in-out infinite;
 }
 
-.intro-frame:nth-child(1) .intro-card {
-  animation: intro-card-1 9s ease-in-out infinite;
+.movie-alien .intro-card {
+  animation-delay: -9s;
 }
 
-.intro-frame:nth-child(2) .intro-card {
-  animation: intro-card-2 9s ease-in-out infinite;
+.movie-spiderman .intro-card {
+  animation-delay: -6s;
 }
 
-.intro-frame:nth-child(3) .intro-card {
-  animation: intro-card-3 9s ease-in-out infinite;
+.movie-martian .intro-card {
+  animation-delay: -3s;
 }
 
 .intro-card p {
@@ -530,114 +608,74 @@ button.anchor.revealed {
   opacity: 1;
 }
 
-/* Each frame gets its own third of a shared 9s loop (0-33%/33-66%/66-99%);
-   the matching .intro-card keyframes fade in partway through that same
-   window so the structured card visibly "forms" after the raw text, not
-   alongside it. */
-@keyframes intro-cycle-1 {
+/* One item's own 2s (book) or 3s (movie) window, expressed as a % of the
+   shared 19s loop, with the rest of the loop held at opacity 0 --- every
+   book page reuses intro-book-page, every movie frame reuses
+   intro-movie-text/intro-movie-card, and only the `animation-delay` above
+   differs per item. This is the same "N items, one keyframe, staggered
+   negative delay" carousel technique, just with two different window
+   shapes (a flip for the book, a two-stage text-then-card reveal for the
+   movies) instead of hand-writing 8 near-duplicate keyframe blocks. */
+@keyframes intro-book-page {
   0%,
-  4% {
+  100% {
+    opacity: 0;
+    transform: rotateY(90deg);
+  }
+
+  1.58% {
+    opacity: 1;
+    transform: rotateY(0deg);
+  }
+
+  8.95% {
+    opacity: 1;
+    transform: rotateY(0deg);
+  }
+
+  10.53% {
+    opacity: 0;
+    transform: rotateY(-90deg);
+  }
+}
+
+@keyframes intro-movie-text {
+  0%,
+  1.05%,
+  100% {
     opacity: 0;
   }
 
-  8%,
-  29% {
+  2.63%,
+  14.21% {
     opacity: 1;
   }
 
-  33%,
-  100% {
+  15.79% {
     opacity: 0;
   }
 }
 
-@keyframes intro-cycle-2 {
+@keyframes intro-movie-card {
   0%,
-  33% {
-    opacity: 0;
-  }
-
-  37%,
-  62% {
-    opacity: 1;
-  }
-
-  66%,
+  6.32%,
   100% {
     opacity: 0;
   }
-}
 
-@keyframes intro-cycle-3 {
-  0%,
-  66% {
-    opacity: 0;
-  }
-
-  70%,
-  95% {
+  7.89%,
+  14.21% {
     opacity: 1;
   }
 
-  99%,
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes intro-card-1 {
-  0%,
-  14% {
-    opacity: 0;
-  }
-
-  18%,
-  29% {
-    opacity: 1;
-  }
-
-  33%,
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes intro-card-2 {
-  0%,
-  47% {
-    opacity: 0;
-  }
-
-  51%,
-  62% {
-    opacity: 1;
-  }
-
-  66%,
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes intro-card-3 {
-  0%,
-  80% {
-    opacity: 0;
-  }
-
-  84%,
-  95% {
-    opacity: 1;
-  }
-
-  99%,
-  100% {
+  15.79% {
     opacity: 0;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .intro-screen,
+  .book-page,
   .intro-frame,
   .intro-card,
   .page-content {
@@ -645,14 +683,15 @@ button.anchor.revealed {
     animation: none !important;
   }
 
-  .intro-frame:nth-child(1),
-  .intro-frame:nth-child(1) .intro-card {
-    opacity: 1;
+  .book-page,
+  .movie-spiderman,
+  .movie-martian {
+    display: none;
   }
 
-  .intro-frame:nth-child(2),
-  .intro-frame:nth-child(3) {
-    display: none;
+  .movie-alien,
+  .movie-alien .intro-card {
+    opacity: 1;
   }
 }
 

@@ -60,3 +60,13 @@ file is the work.
 - `extraction-dom.test.ts` builds `dist/` and parses the real static HTML via
   JSDOM rather than hand-authored fixture markup --- keep new DOM-wiring tests
   in that pattern so they stay honest against what actually ships.
+- A "same keyframe, staggered negative `animation-delay`" carousel (N items
+  all reusing one @keyframes block, authored so the visible window sits at
+  the *start* of the shared duration) runs backwards from what you'd guess.
+  To make an item's window land at forward-order offset `O` within total
+  duration `T`, the delay is `-(T - O)`, not `-O` --- `-O` schedules it at
+  real time `T - O`, i.e. the whole sequence plays in reverse. Confirmed by
+  sampling `getComputedStyle(...).opacity` over real time in headless
+  Chrome via CDP (`Emulation.setDeviceMetricsOverride` +
+  `Runtime.evaluate`), not by eyeballing --- the reversal isn't visually
+  obvious until you check the order against the clock.

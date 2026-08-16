@@ -2,58 +2,66 @@
 // Full-screen splash shown before the catalog. #page-content (in index.astro)
 // starts `inert` and opacity:0 in markup/CSS; intro.ts's wireUpIntro() is the
 // only thing that removes that and fades this screen out, on the button
-// click. The three animation frames are illustrative flavour text authored
-// here directly (not pulled from src/data/movies.ts) so the intro stays
-// decoupled from the anchor/segment machinery the real panel uses — they
-// just borrow three real catalog titles for continuity with the page that
-// follows.
+// click. The animation cycles a "book" of modelling-vocabulary pages into
+// the same three illustrative movie frames used before (Alien, Spider-Man:
+// Brand New Day, The Martian — authored directly here, not pulled from
+// src/data/movies.ts, so the intro stays decoupled from the anchor/segment
+// machinery the real panel uses) on one shared 19s loop; see global.css for
+// the per-frame timing.
 ---
 
 <section class="intro-screen" id="intro-screen">
-  <div class="intro-grid">
-    <div class="intro-copy">
-      <h1>Content Modelling: Why it's important</h1>
-      <p>
+  <div class="intro-content">
+    <h1>Content Modelling: Why it's important</h1>
+
+    <div class="intro-grid">
+      <p class="intro-copy">
         Content modelling is the process of mapping out the structure, attributes, and relationships of your content
         independent of its final visual design. It serves as the foundational blueprint for your entire digital
         ecosystem.
       </p>
-    </div>
 
-    <div class="intro-animation" aria-hidden="true">
-      <div class="intro-frame">
-        <p class="intro-raw">
-          Alien (<span class="anchor revealed">1979</span>) is a <span class="anchor revealed"
-            >science-fiction horror</span
-          > film directed by <span class="anchor revealed">Ridley Scott</span>.
-        </p>
-        <div class="intro-card">
-          <p><strong>Title:</strong> Alien</p>
-          <p><strong>Date:</strong> 1979</p>
-          <p><strong>Genre:</strong> Sci-Fi, Horror</p>
-          <p><strong>Director:</strong> Ridley Scott</p>
+      <div class="intro-animation" aria-hidden="true">
+        <div class="book-page book-cover"><span class="book-label">Content Modelling</span></div>
+        <div class="book-page book-types"><span class="book-label">Content Types</span></div>
+        <div class="book-page book-fields"><span class="book-label">Fields</span></div>
+        <div class="book-page book-taxonomy"><span class="book-label">Taxonomy</span></div>
+        <div class="book-page book-components"><span class="book-label">Components</span></div>
+
+        <div class="intro-frame movie-alien">
+          <p class="intro-raw">
+            Alien (<span class="anchor revealed">1979</span>) is a <span class="anchor revealed"
+              >science-fiction horror</span
+            > film directed by <span class="anchor revealed">Ridley Scott</span>.
+          </p>
+          <div class="intro-card">
+            <p><strong>Title:</strong> Alien</p>
+            <p><strong>Date:</strong> 1979</p>
+            <p><strong>Genre:</strong> Sci-Fi, Horror</p>
+            <p><strong>Director:</strong> Ridley Scott</p>
+          </div>
         </div>
-      </div>
 
-      <div class="intro-frame">
-        <p class="intro-raw">
-          Spider-Man: Brand New Day is an <span class="anchor revealed">action-adventure</span> blockbuster starring
-          <span class="anchor revealed">Tom Holland as Peter Parker</span>.
-        </p>
-        <div class="intro-card">
-          <p><strong>Genre:</strong> Action, Adventure</p>
-          <p><strong>Cast:</strong> Tom Holland as Peter Parker</p>
+        <div class="intro-frame movie-spiderman">
+          <p class="intro-raw">
+            Spider-Man: Brand New Day is an <span class="anchor revealed">action-adventure</span> blockbuster
+            starring <span class="anchor revealed">Tom Holland as Peter Parker</span>.
+          </p>
+          <div class="intro-card">
+            <p><strong>Genre:</strong> Action, Adventure</p>
+            <p><strong>Cast:</strong> Tom Holland as Peter Parker</p>
+          </div>
         </div>
-      </div>
 
-      <div class="intro-frame">
-        <p class="intro-raw">
-          The Martian, released in <span class="anchor revealed">2015</span>, follows
-          <span class="anchor revealed">an astronaut stranded on Mars</span>.
-        </p>
-        <div class="intro-card">
-          <p><strong>Date:</strong> 2015</p>
-          <p><strong>Plot:</strong> An astronaut stranded on Mars.</p>
+        <div class="intro-frame movie-martian">
+          <p class="intro-raw">
+            The Martian, released in <span class="anchor revealed">2015</span>, follows
+            <span class="anchor revealed">an astronaut stranded on Mars</span>.
+          </p>
+          <div class="intro-card">
+            <p><strong>Date:</strong> 2015</p>
+            <p><strong>Plot:</strong> An astronaut stranded on Mars.</p>
+          </div>
         </div>
       </div>
     </div>
