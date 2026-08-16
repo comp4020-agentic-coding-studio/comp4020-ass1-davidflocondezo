@@ -29,8 +29,14 @@ describe("movie dataset", () => {
         expect(movie.blob).toContain(movie.anchors.releaseDate);
       });
 
-      it("has a plot anchor findable in its blob", () => {
-        expect(movie.blob).toContain(movie.anchors.plot);
+      it("has every plot fragment findable in its blob", () => {
+        for (const fragment of movie.anchors.plot) {
+          expect(movie.blob).toContain(fragment);
+        }
+      });
+
+      it("has plot fragments that reconstitute data.plot in order", () => {
+        expect(movie.anchors.plot.join(" ")).toBe(movie.data.plot);
       });
 
       it("has every genre anchor findable in its blob", () => {

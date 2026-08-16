@@ -41,7 +41,14 @@ export type Movie = {
 // anchor that doesn't actually appear in its movie's blob.
 export type Anchors = {
   releaseDate: string;
-  plot: string;
+  // The plot is broken into sentence-level fragments scattered through the
+  // blob (interrupted by genre/cast/director/poster mentions), not one
+  // contiguous substring — that's what makes the blob read as a messy import
+  // rather than clean prose with facts bolted on front and back. Fragments
+  // stay in the same order they appear in `data.plot`, and joining them with
+  // a single space reconstitutes `data.plot` exactly, so there's still only
+  // one wording of the plot to maintain, not two.
+  plot: string[];
   genres: string[]; // same order as data.genres
   director: string[]; // same order as data.director
   cast: { actor: string; character: string; anchor: string }[]; // anchor covers both names together, keeping the pairing intact in the blob too
