@@ -1,0 +1,35 @@
+---
+// Renders a movie's raw blob, split into text/anchor segments by
+// `segmentBlob`. `interactive` (panel only) renders anchors as real buttons
+// so they're clickable and keyboard-reachable; every other card renders the
+// same anchors as inert, non-focusable spans — same segmentation, same
+// `data-facet` tagging, just not something a visitor can act on.
+import { segmentBlob } from "../lib/segment";
+import type { MovieRecord } from "../types/movie";
+
+interface Props {
+  movie: MovieRecord;
+  interactive?: boolean;
+}
+
+const { movie, interactive = false } = Astro.props;
+const segments = segmentBlob(movie);
+---
+
+<p class="blob" data-movie={movie.id}>
+  {
+    segments.map((segment) => {
+      if (segment.type === "text") return segment.text;
+      const { facet, key, text } = segment.anchor;
+      return interactive ? (
+        <button type="button" class="anchor" data-facet={facet} data-key={key}>
+          {text}
+        </button>
+      ) : (
+        <span class="anchor anchor-inert" data-facet={facet}>
+          {text}
+        </span>
+      );
+    })
+  }
+</p>

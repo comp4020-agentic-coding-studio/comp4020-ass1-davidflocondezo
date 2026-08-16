@@ -1,20 +1,38 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import MoviePanel from "../components/MoviePanel.astro";
+import MovieCard from "../components/MovieCard.astro";
+import CatalogControls from "../components/CatalogControls.astro";
+import { movies, PANEL_MOVIE_ID } from "../data/movies";
+
+const panelMovie = movies.find((m) => m.id === PANEL_MOVIE_ID);
+if (!panelMovie) throw new Error("PANEL_MOVIE_ID doesn't match a movie");
+const gridMovies = movies.filter((m) => m.id !== PANEL_MOVIE_ID);
 ---
 
-<Layout title="COMP4020 prototype">
+<Layout title="Content modelling, worked through one movie">
   <header>
     <nav aria-label="Primary">
       <a href="./">Home</a>
     </nav>
   </header>
   <main>
-    <h1>COMP4020 prototype</h1>
-    <p data-testid="intro">
-      Replace this with your prototype. This week's brief is on the course
-      website; <code>spec/README.md</code> explains how the checks in this repo
-      relate to it.
+    <h1>Content modelling, worked through one movie</h1>
+    <p>
+      Click phrases in <strong>{panelMovie.data.title}</strong>'s raw text
+      below to extract them into structured data. Each extraction demonstrates
+      one facet of the content model — release date, taxonomy, cast, poster,
+      plot — and unlocks a matching feature across every other movie in the
+      catalog below.
     </p>
+
+    <MoviePanel movie={panelMovie} />
+
+    <CatalogControls />
+
+    <ul class="movie-grid">
+      {gridMovies.map((movie) => <MovieCard movie={movie} />)}
+    </ul>
   </main>
   <script src="../scripts/main.ts"></script>
 </Layout>

@@ -1,0 +1,21 @@
+---
+// A passive echo of the panel: the same kind of blob, but inert (no
+// clickable styling), plus the same hidden structured-facts sections. These
+// stay in sync with the panel's progress — they're what shows the
+// "one model, many instances" payoff instead of just asserting it.
+import BlobText from "./BlobText.astro";
+import StructuredFacts from "./StructuredFacts.astro";
+import type { MovieRecord } from "../types/movie";
+
+interface Props {
+  movie: MovieRecord;
+}
+
+const { movie } = Astro.props;
+---
+
+<li class="movie-card" data-movie={movie.id}>
+  <h3>{movie.data.title}</h3>
+  <BlobText movie={movie} />
+  <StructuredFacts movie={movie} />
+</li>

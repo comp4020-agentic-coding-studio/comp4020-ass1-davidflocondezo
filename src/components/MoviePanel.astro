@@ -1,0 +1,40 @@
+---
+// The one dedicated, interactive extraction panel (always the movie named by
+// PANEL_MOVIE_ID). Every phrase in its blob is clickable; every other card in
+// the grid shows the same kind of blob but inert, so only this panel ever
+// reads as "click me".
+import BlobText from "./BlobText.astro";
+import StructuredFacts from "./StructuredFacts.astro";
+import type { MovieRecord } from "../types/movie";
+
+interface Props {
+  movie: MovieRecord;
+}
+
+const { movie } = Astro.props;
+
+const steps: { facet: string; label: string }[] = [
+  { facet: "releaseDate", label: "Release date" },
+  { facet: "taxonomy", label: "Taxonomy (genres + director)" },
+  { facet: "component", label: "Cast" },
+  { facet: "media", label: "Poster" },
+  { facet: "plot", label: "Plot" },
+];
+---
+
+<section class="movie-panel" aria-labelledby="panel-heading">
+  <h2 id="panel-heading">{movie.data.title}</h2>
+  <p class="panel-intro">
+    Click a phrase below to extract it into the movie's structured data. Every
+    phrase is clickable in any order — the steps are a suggested reading path,
+    not a requirement.
+  </p>
+
+  <ol class="guided-steps">
+    {steps.map((step) => <li data-facet={step.facet}>{step.label}</li>)}
+  </ol>
+
+  <BlobText movie={movie} interactive />
+
+  <StructuredFacts movie={movie} />
+</section>

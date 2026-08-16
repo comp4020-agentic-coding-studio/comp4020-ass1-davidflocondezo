@@ -1,0 +1,53 @@
+---
+// The structured form of a movie's data, one hidden <section> per facet.
+// Every movie gets the same markup (not just Alien): the payoff of
+// extraction is that all 12 cards reveal their matching section in sync the
+// moment that facet completes in the panel, not just the one being worked on.
+import { formatReleaseDate } from "../lib/format-date";
+import type { MovieRecord } from "../types/movie";
+
+interface Props {
+  movie: MovieRecord;
+}
+
+const { movie } = Astro.props;
+const { data } = movie;
+const posterSrc = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/${data.poster.url.replace(/^\//, "")}`;
+---
+
+<div class="structured-facts" data-movie={movie.id}>
+  <section data-facet="releaseDate" hidden>
+    <h3>Release date</h3>
+    <p>{formatReleaseDate(data.releaseDate)}</p>
+  </section>
+
+  <section data-facet="taxonomy" hidden>
+    <h3>Taxonomy</h3>
+    <p><strong>Genres:</strong> {data.genres.join(", ")}</p>
+    <p><strong>Director:</strong> {data.director.join(", ")}</p>
+  </section>
+
+  <section data-facet="component" hidden>
+    <h3>Cast</h3>
+    <ul>
+      {
+        data.cast.map((c) => (
+          <li>
+            {c.actor} as {c.character}
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section data-facet="media" hidden>
+    <h3>Poster</h3>
+    <img src={posterSrc} alt={data.poster.alt} />
+    <p class="credit">{data.poster.credit}</p>
+  </section>
+
+  <section data-facet="plot" hidden>
+    <h3>Plot</h3>
+    <p>{data.plot}</p>
+  </section>
+</div>
