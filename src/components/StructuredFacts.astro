@@ -8,9 +8,10 @@ import type { MovieRecord } from "../types/movie";
 
 interface Props {
   movie: MovieRecord;
+  withModelNotes?: boolean;
 }
 
-const { movie } = Astro.props;
+const { movie, withModelNotes = false } = Astro.props;
 const { data } = movie;
 const posterSrc = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/${data.poster.url.replace(/^\//, "")}`;
 ---
@@ -19,21 +20,25 @@ const posterSrc = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/${data.poster.
   <section data-facet="media" hidden class="poster">
     <img src={posterSrc} alt={data.poster.alt} />
     <p class="credit">{data.poster.credit}</p>
+    {withModelNotes && <p class="model-note">Media — an asset with its own metadata, not a bare link.</p>}
   </section>
 
   <div class="facts-details">
     <div class="fact-row">
       <section data-facet="releaseDate" hidden>
         <p><strong>Release date:</strong> {formatReleaseDate(data.releaseDate)}</p>
+        {withModelNotes && <p class="model-note">Field — a single value.</p>}
       </section>
 
       <section data-facet="genre" hidden>
         <p><strong>Genre:</strong> {data.genres.join(", ")}</p>
+        {withModelNotes && <p class="model-note">Taxonomy — a fixed, shared list, not free text.</p>}
       </section>
     </div>
 
     <section data-facet="director" hidden>
       <p><strong>Director:</strong> {data.director.join(", ")}</p>
+      {withModelNotes && <p class="model-note">Taxonomy — same fixed-list pattern as genre.</p>}
     </section>
 
     <section data-facet="component" hidden>
@@ -47,10 +52,12 @@ const posterSrc = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/${data.poster.
           ))
         }
       </ul>
+      {withModelNotes && <p class="model-note">Component — actor and character stay paired, not two separate lists.</p>}
     </section>
 
     <section data-facet="plot" hidden>
       <p><strong>Plot:</strong> {data.plot}</p>
+      {withModelNotes && <p class="model-note">Field — plain text, no internal structure to extract.</p>}
     </section>
   </div>
 </div>

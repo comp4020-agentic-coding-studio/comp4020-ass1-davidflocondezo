@@ -1,6 +1,6 @@
 // The content model for this explainer's one example content type. Each
-// comment block names which of the four facets (fields, taxonomy, component,
-// media) the properties below it demonstrate.
+// comment block names which facet (fields, genre/director, component, media)
+// the properties below it demonstrate.
 
 export type Movie = {
   // Fields — single values, no internal structure.
@@ -52,7 +52,7 @@ export type Anchors = {
   genres: string[]; // same order as data.genres
   director: string[]; // same order as data.director
   cast: { actor: string; character: string; anchor: string }[]; // anchor covers both names together, keeping the pairing intact in the blob too
-  poster: { anchor: string; credit: string }; // anchor becomes alt text once extracted
+  poster: { anchor: string }; // anchor becomes alt text once extracted; credit is display-only, never in the blob
 };
 
 export type MovieRecord = {

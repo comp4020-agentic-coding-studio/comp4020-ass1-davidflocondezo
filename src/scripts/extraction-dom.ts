@@ -31,6 +31,10 @@ export function wireUpExtraction(root: ParentNode): void {
   let searchIncludesGenre = false;
   let explorationSeen = false;
   let explorationDone = false;
+  let allDone = false;
+
+  const COMPLETION_MESSAGE =
+    "That's the whole model extracted — and why it matters: search, sort, and filter above now work off structured data, not text you'd have to re-read by hand. Content modelling makes sure your content is delivered in the best possible way for viewers.";
 
   const searchInput = root.querySelector<HTMLInputElement>("#catalog-search");
   const searchHint = root.querySelector<HTMLElement>("[data-search-hint]");
@@ -39,14 +43,16 @@ export function wireUpExtraction(root: ParentNode): void {
   const panelCollapseToggle = root.querySelector<HTMLButtonElement>("[data-panel-collapse]");
   const sortSelect = root.querySelector<HTMLSelectElement>("#sort-select");
   const sortControl = root.querySelector<HTMLElement>('[data-control="releaseDate"]');
-  const genreFilter = root.querySelector<HTMLSelectElement>("#genre-filter");
-  const directorFilter = root.querySelector<HTMLSelectElement>("#director-filter");
+  const genreFilter = root.querySelector<HTMLElement>('[data-control="genre"]');
+  const directorFilter = root.querySelector<HTMLElement>('[data-control="director"]');
   const grid = root.querySelector<HTMLElement>(".movie-grid");
   const originalOrder = grid ? Array.from(grid.children) : [];
 
-  function selectedValues(select: HTMLSelectElement | null): string[] {
-    if (!select) return [];
-    return Array.from(select.selectedOptions).map((option) => option.value);
+  function selectedValues(container: HTMLElement | null): string[] {
+    if (!container) return [];
+    return Array.from(container.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked')).map(
+      (checkbox) => checkbox.value,
+    );
   }
 
   function updateSearchPlaceholder(): void {
@@ -71,7 +77,7 @@ export function wireUpExtraction(root: ParentNode): void {
     if (!explorationDone) {
       if (isGenreQuery && visibleCount === 0) {
         explorationSeen = true;
-        searchHint.textContent = `No matches for "${query}" — genre isn't structured data yet, it's still just plain text in the blob below. Work through the Genre step in the panel to extract it.`;
+        searchHint.textContent = `No matches for "${query}" — This data's here, just buried in text and not structured. Work through the following steps in the panel to extract it.`;
       } else if (!explorationSeen) {
         searchHint.textContent = 'Try searching for a genre, like "horror" — see what happens.';
       }
@@ -79,8 +85,13 @@ export function wireUpExtraction(root: ParentNode): void {
       return;
     }
 
+    if (allDone) {
+      searchHint.textContent = COMPLETION_MESSAGE;
+      return;
+    }
+
     if (isGenreQuery && visibleCount === 0 && !searchIncludesGenre) {
-      searchHint.textContent = `No matches for "${query}" — genre isn't structured data yet, it's still just plain text in the blob below. Work through the Genre step in the panel to extract it.`;
+      searchHint.textContent = `No matches for "${query}" — This data's here, just buried in text and not structured. Work through the following steps in the panel to extract it.`;
       return;
     }
 
@@ -159,7 +170,7 @@ export function wireUpExtraction(root: ParentNode): void {
     applyGridView();
   });
 
-  function revealFacet(facet: FacetGroup): void {
+  function revealFacet(facet: FacetGroup, isFinalFacet: boolean = false): void {
     for (const el of Array.from(root.querySelectorAll<HTMLElement>(`.movie-panel .blob [data-facet="${facet}"]`))) {
       el.classList.add("revealed");
     }
@@ -176,9 +187,17 @@ export function wireUpExtraction(root: ParentNode): void {
       section.classList.add("just-revealed");
     }
 
-    const revealedSection = moviePanel?.querySelector<HTMLElement>(`.structured-facts [data-facet="${facet}"]`);
-    if (revealedSection && typeof revealedSection.scrollIntoView === "function") {
-      setTimeout(() => revealedSection.scrollIntoView({ behavior: "smooth", block: "center" }), 500);
+    // On the last facet, the reveal itself matters less than the completion
+    // message waiting up in the guidance box — scroll there instead of down
+    // to the section just revealed, or the message goes unseen.
+    const scrollTarget = isFinalFacet
+      ? root.querySelector<HTMLElement>(".step-guidance")
+      : moviePanel?.querySelector<HTMLElement>(`.structured-facts [data-facet="${facet}"]`);
+    if (scrollTarget && typeof scrollTarget.scrollIntoView === "function") {
+      setTimeout(
+        () => scrollTarget.scrollIntoView({ behavior: "smooth", block: isFinalFacet ? "start" : "center" }),
+        500,
+      );
     }
 
     if (facet === "releaseDate" || facet === "genre" || facet === "director") {
@@ -187,6 +206,15 @@ export function wireUpExtraction(root: ParentNode): void {
         control.hidden = false;
         control.classList.add("just-revealed");
       }
+    }
+
+    // The filter sidebar only has something to show once Genre or Director
+    // has unlocked at least one control — before that it's dead space, so the
+    // grid takes the full width instead.
+    if (facet === "genre" || facet === "director") {
+      const filterPanel = root.querySelector<HTMLElement>(".filter-panel");
+      if (filterPanel) filterPanel.hidden = false;
+      root.querySelector(".catalog-layout")?.classList.remove("no-filters");
     }
 
     if (facet === "component") {
@@ -209,10 +237,16 @@ export function wireUpExtraction(root: ParentNode): void {
   // to invite a click on.
   function applyCompletionStateIfDone(): void {
     if (!FACETS.every((facet) => revealState[facet].completed)) return;
+    if (!allDone) {
+      allDone = true;
+      if (searchHint) searchHint.textContent = COMPLETION_MESSAGE;
+    }
     for (const blob of Array.from(root.querySelectorAll<HTMLElement>(".movie-card .blob"))) {
       blob.hidden = true;
     }
     moviePanel?.classList.add("panel-complete");
+    const completionPill = root.querySelector<HTMLElement>("[data-completion-pill]");
+    if (completionPill) completionPill.hidden = false;
   }
 
   const panelButtons = root.querySelectorAll<HTMLButtonElement>(".movie-panel button.anchor");
@@ -234,7 +268,10 @@ export function wireUpExtraction(root: ParentNode): void {
         root.querySelector(`.guided-steps li[data-facet="${facet}"]`)?.classList.add("done");
       }
 
-      if (result.justRevealed) revealFacet(facet);
+      if (result.justRevealed) {
+        const isFinalFacet = FACETS.every((f) => revealState[f].completed);
+        revealFacet(facet, isFinalFacet);
+      }
 
       applyCompletionStateIfDone();
     });

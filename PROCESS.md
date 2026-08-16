@@ -1,123 +1,71 @@
-# Process overview
-
-<!-- TEMPLATE: this file is a shape to fill in, not a form. Replace everything
-     in it with your own overview, and delete this comment — `pnpm
-     check:evidence` will remind you if it's still here. -->
-
-A reading-guide to how the work came together --- a map to your process, not an
-essay about it. Markers read this file and follow its citations; they don't
-trawl the repo for evidence you didn't point at, so if a moment mattered, cite
-it.
-
-This file is the shape; the course site's
-[assessment page](https://comp.anu.edu.au/courses/comp4020-agentic-coding-studio/topics/assessment/#what-you-submit)
-is the requirement, and its
-[word counts](https://comp.anu.edu.au/courses/comp4020-agentic-coding-studio/topics/assessment/#word-counts)
-cover every deliverable.
-
 ## What I built
 
-One paragraph: the thing, and the idea behind it.
+My interactive explainer is about content modelling: breaking content into
+distinct structured fields before it goes anywhere near a page. Most web work
+talks about code and visual design, rarely about this. The visitor extracts
+fields — release date, genre, director, cast, poster, plot — from one movie's
+raw text blob, and each extraction unlocks a filter or search feature across
+the whole 12-movie catalog, not just the movie being edited.
 
 ## The moments that mattered
 
-Three or four for an assignment; fewer is fine for a weekly prototype. Keep the
-list short so each moment has room to do all four jobs:
+### 1st moment: Scoping the topic
 
-1. **what happened** --- the problem, or the thing that went wrong
-2. **what you did instead of the obvious thing** --- the call you made, and why
-   it beat the obvious one
-3. **how you knew it was right** --- the check you ran, the viewport you looked
-   at, what you read before accepting the diff
-4. **the citation** --- a commit or commit range, a `CLAUDE.md` change, a check
-   that went from red to green, a prompt paired with the commit it produced
+1. **what happened**<br/>
+My first idea explained content modelling in general: fields, taxonomy,
+components, media, as a sort-into-buckets interaction across several content
+types. A visitor with no CMS background wouldn't know what to do with that,
+and several concepts risked reading as several unrelated ideas, not one.
+2. **what I did instead of the obvious thing**<br/>
+I narrowed to one content type any visitor recognises — a movie — and changed
+the payoff from "tidy up one record" to "unlock capability across a whole
+catalog." Extracting genre/cast/poster/plot from one movie's raw blob turns on
+a filter or search feature across every movie in the listing.
+3. **how you knew it was right**<br/>
+I checked it against the brief again: it made the interaction concrete enough
+to state as a test (the genre filter doesn't exist until taxonomy runs, and
+returns correct results right after), and it collapsed a sprawling idea into
+the single focused one the brief asks for.
+4. **the citation**<br/>
+[`69bd9fa ... 8e7e509`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass1-davidflocondezo/compare/69bd9fa...8e7e509)
 
-Jobs 2 and 3 are the ones the repo can't tell a reader on its own, so they're
-where the marks are. The strongest moments are the ones where a correction
-landed in the **harness** --- the standards and checks your work has to satisfy
---- rather than in a retry: a rule added to `CLAUDE.md`, a check wired up, an
-attempt thrown away. Retrying until it passes is the routine case, and changing
-what the work runs against is the skilled one.
+### 2nd moment: one editable panel, not every card
 
-Cite each moment as a link whose text is the commit hash or range and whose
-target is this repo's commit or compare URL, so a reader clicks straight to the
-evidence:
+1. **what happened**<br/>
+My first version gave every grid card the same clickable-looking blob styling
+as the worked example, assuming visual consistency was the goal. With 8-12
+cards all reading as "click me," a visitor had no way to tell which one was
+the actual exercise and which were just... other movies.
+2. **what you did instead of the obvious thing**<br/>
+I moved to one dedicated panel as the only clickable place, leaving every
+other card's blob visible but inert. To keep the catalog-wide payoff visible
+rather than asserted, those inert blobs update passively: the moment a step
+completes in the panel, the matching phrase in every card's blob gets the same
+highlight and flips to its structured form, in sync.
+3. **how you knew it was right**<br/>
+I checked this against the affordance problem (only one thing in the UI should
+read as "do this") and against build cost: the highlight reuses the same data
+and trigger already needed for the catalog filters, not a second mechanism.
+4. **the citation**<br/>
+[`6e10ed0`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass1-davidflocondezo/commit/6e10ed0)
 
-- one commit: [`a1b2c3d`](https://github.com/YOUR-ORG/YOUR-REPO/commit/a1b2c3d)
-- a range:
-  [`a1b2c3d...e4f5a6b`](https://github.com/YOUR-ORG/YOUR-REPO/compare/a1b2c3d...e4f5a6b)
+### 3rd moment: Dimming the panel instead of removing it entirely
 
-To pair a prompt with the commit it produced, quote the prompt (curated, not a
-full transcript) next to the citation:
-
-> the prompt, verbatim
-
-Screenshots are welcome where one carries the verification better than a
-sentence does. Commit the file to this repo and link it with a **relative**
-path, which is what makes it render on GitHub: `![alt text](docs/before.png)`.
-Images don't count towards the word count and don't replace the citation.
-
-### Draft moment: scoping the topic (fill in citation, edit freely)
-
-> My first idea was an explainer of content modelling in general --- fields,
-> taxonomy, components, media --- but that stayed abstract: a visitor with no
-> CMS background wouldn't know what to do with a free-form sort-into-buckets
-> interaction, and four separate concepts risked reading as four flashcards
-> instead of one idea. Instead of building the sandbox I'd first pictured, I
-> narrowed to one concrete content type (a movie), then changed the payoff from
-> "tidy up one record" to "unlock real capability across a whole catalog" ---
-> the visitor extracts genre/cast/poster/fields from one movie's raw text blob,
-> and each extraction turns on a filter or search feature across every movie in
-> the listing, not just the one being edited. I checked this against the
-> published spec before building anything: it gives a single interaction
-> concrete enough to state as a test (e.g. the genre filter doesn't exist until
-> the taxonomy step runs, and returns correct results after), and it collapses
-> four concepts into one idea rather than four, which the brief asks for
-> explicitly.
-> [ADD CITATION: commit/range once the schema + guided-step plan is committed]
-
-### Draft moment: one editable panel, not every card (fill in citation, edit freely)
-
-> My first version of the grid gave every card the same clickable-looking blob
-> text as the worked example, on the assumption that visual consistency across
-> cards was the goal. That created a real ambiguity: with 8-12 cards all
-> reading as "click me", a visitor has no way to tell which one is the actual
-> exercise and which are just... other movies. Instead of making every card
-> interactive, I moved to one dedicated panel as the only place phrases are
-> clickable, and left every other card's blob visible but inert --- plain text,
-> no clickable styling. To keep the catalog-wide payoff visible rather than
-> asserted, those inert blobs update passively: the moment a step completes in
-> the panel, the matching phrase in every other card's blob gets the same
-> highlight and flips to its structured form, in sync. I checked this against
-> the affordance problem directly (only one thing in the UI should read as "do
-> this") and against build cost: the highlight reuses the same structured data
-> and trigger already needed to unlock the catalog-wide filters, not a second
-> mechanism, so the fix didn't add a new class of work.
-> [ADD CITATION: commit/range once the panel/echo interaction lands in code or spec]
-
-### A worked moment, for shape
-
-Delete this section along with the rest of the boilerplate --- it's here to show
-the four jobs in one paragraph, not to be imitated in content.
-
-> The date formatter kept coming back with `toLocaleDateString()` and no locale
-> argument, so the same build rendered differently on my machine and in CI. I'd
-> already re-prompted it twice, which fixed the line but not the habit, so the
-> third time I put the rule in `CLAUDE.md` instead
-> ([`3f9ac21`](https://github.com/YOUR-ORG/YOUR-REPO/commit/3f9ac21)) and added
-> a spec test that fails on a bare `toLocaleDateString`. That's what told me it
-> had actually taken: the test went red against the old code and green against
-> the new, and the next two features it wrote passed it without prompting
-> ([`3f9ac21...b7e0d14`](https://github.com/YOUR-ORG/YOUR-REPO/compare/3f9ac21...b7e0d14)).
-
-## Before you ship
-
-`pnpm check:evidence` verifies your citations resolve to real commits, that the
-current reflection entry is in `reflections/`, and that your `CLAUDE.md` is
-there --- before a marker ever opens the file. It checks that your map is
-traceable, not that it is good: the marker judges whether your small,
-deliberately chosen set of moments shows real judgement and reflection. A green
-check is not a substitute for that curation.
-
-Images are deliberately not checked, because whether one renders is visible the
-moment you look. Open this file on GitHub and look at it before you ship.
+1. **what happened**<br/>
+While compacting the grid to cut scrolling, I planned to remove the panel
+once all six steps were done, matching the tidied grid and clearing the
+"leftover UI" feeling of nothing left to click.
+2. **what you did instead of the obvious thing**<br/>
+I paused and talked it through with the agent. The panel is the worked example
+showing a raw blob and its structured-facts transformation side by side — the
+reference every card's synced reveal echoes. Removing it would delete exactly
+the comparison the exercise is built around, and contradict an earlier call to
+leave the panel's own blob untouched after the grid's blobs disappeared. So I
+dimmed and collapsed it instead: present, low visual weight, still comparable.
+3. **how you knew it was right**<br/>
+The point of this topic is showing how content modelling turns unstructured
+content into the best possible view for visitors, and that needs a before/after
+side by side. Losing the panel would remove the one place that comparison
+exists.
+4. **the citation**<br/>
+[`08df7d0`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass1-davidflocondezo/commit/08df7d0)

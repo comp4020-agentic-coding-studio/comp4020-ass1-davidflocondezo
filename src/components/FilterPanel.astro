@@ -9,17 +9,27 @@ const genres = [...new Set(gridMovies.flatMap((m) => m.data.genres))].sort();
 const directors = [...new Set(gridMovies.flatMap((m) => m.data.director))].sort();
 ---
 
-<aside class="filter-panel" aria-label="Filters">
-  <div data-control="genre" hidden class="filter-group">
-    <label for="genre-filter">Genre</label>
-    <select id="genre-filter" multiple size={Math.min(genres.length, 6)}>
-      {genres.map((genre) => <option value={genre}>{genre}</option>)}
-    </select>
-  </div>
-  <div data-control="director" hidden class="filter-group">
-    <label for="director-filter">Director</label>
-    <select id="director-filter" multiple size={Math.min(directors.length, 6)}>
-      {directors.map((director) => <option value={director}>{director}</option>)}
-    </select>
-  </div>
+<aside class="filter-panel" aria-label="Filters" hidden>
+  <fieldset data-control="genre" hidden class="filter-group">
+    <legend>Genre</legend>
+    {
+      genres.map((genre) => (
+        <label class="filter-option">
+          <input type="checkbox" name="genre" value={genre} />
+          {genre}
+        </label>
+      ))
+    }
+  </fieldset>
+  <fieldset data-control="director" hidden class="filter-group">
+    <legend>Director</legend>
+    {
+      directors.map((director) => (
+        <label class="filter-option">
+          <input type="checkbox" name="director" value={director} />
+          {director}
+        </label>
+      ))
+    }
+  </fieldset>
 </aside>

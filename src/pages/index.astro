@@ -15,14 +15,16 @@ const gridMovies = movies.filter((m) => m.id !== PANEL_MOVIE_ID);
 
 <Layout title="Content modelling, worked through one movie">
   <header>
-    <nav aria-label="Primary">
-      <a href="./">Home</a>
-    </nav>
+    <nav aria-label="Primary"></nav>
   </header>
   <main>
     <h1>Content modelling, worked through one movie</h1>
+    <p class="page-intro">
+      Content modelling is the process of analysing your website content and breaking it down into distinct
+      structured pieces a system can use.
+    </p>
 
-    <div class="catalog-layout">
+    <div class="catalog-layout no-filters">
       <div class="layout-spacer" aria-hidden="true"></div>
       <div class="panel-topbar">
         <SearchControl />

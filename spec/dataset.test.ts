@@ -57,9 +57,12 @@ describe("movie dataset", () => {
         }
       });
 
-      it("has the poster anchor and credit findable in its blob", () => {
+      it("has the poster anchor findable in its blob", () => {
         expect(movie.blob).toContain(movie.anchors.poster.anchor);
-        expect(movie.blob).toContain(movie.anchors.poster.credit);
+      });
+
+      it("does not have the poster credit in its blob", () => {
+        expect(movie.blob).not.toContain(movie.data.poster.credit);
       });
 
       it("has anchors.cast pairs matching data.cast pairs", () => {
@@ -73,9 +76,6 @@ describe("movie dataset", () => {
         expect(movie.anchors.director).toEqual(movie.data.director);
       });
 
-      it("has a poster credit matching data.poster.credit", () => {
-        expect(movie.anchors.poster.credit).toBe(movie.data.poster.credit);
-      });
     });
   }
 });

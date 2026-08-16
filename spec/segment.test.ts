@@ -31,9 +31,4 @@ describe("requiredKeys", () => {
     expect(requiredKeys(anchors, "media")).toHaveLength(1);
     expect(requiredKeys(anchors, "plot")).toHaveLength(4);
   });
-
-  it("excludes poster.credit from media's required count", () => {
-    const mediaKeys = requiredKeys(anchors, "media");
-    expect(mediaKeys).not.toContain("poster.credit");
-  });
 });

@@ -34,7 +34,10 @@ const steps = stepLabels.map(({ facet, label }) => ({
 
 <section class="movie-panel" aria-labelledby="panel-heading" hidden>
   <div class="panel-header">
-    <h2 id="panel-heading">{movie.data.title}</h2>
+    <div class="panel-title">
+      <h2 id="panel-heading">{movie.data.title}</h2>
+      <span class="completion-pill" data-completion-pill hidden>Completed</span>
+    </div>
     <button
       type="button"
       class="panel-collapse-toggle"
@@ -65,6 +68,6 @@ const steps = stepLabels.map(({ facet, label }) => ({
 
     <BlobText movie={movie} interactive />
 
-    <StructuredFacts movie={movie} />
+    <StructuredFacts movie={movie} withModelNotes />
   </div>
 </section>

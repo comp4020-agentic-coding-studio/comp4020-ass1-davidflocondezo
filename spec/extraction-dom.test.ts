@@ -242,7 +242,7 @@ describe("wireUpExtraction", () => {
     fire(search, "input");
 
     expect(visibleGridIds(doc)).toEqual([]);
-    expect(hint?.textContent).toContain("Genre");
+    expect(hint?.textContent).toContain("buried in text");
     expect(doc.querySelector(".movie-panel")?.hasAttribute("hidden")).toBe(true);
     expect(doc.querySelector("[data-guidance-next]")?.hasAttribute("hidden")).toBe(false);
   });
@@ -258,7 +258,7 @@ describe("wireUpExtraction", () => {
     search.value = "";
     fire(search, "input");
 
-    expect(hint?.textContent).toContain("Genre");
+    expect(hint?.textContent).toContain("buried in text");
     expect(doc.querySelector(".movie-panel")?.hasAttribute("hidden")).toBe(true);
     expect(doc.querySelector("[data-guidance-next]")?.hasAttribute("hidden")).toBe(false);
   });
@@ -330,12 +330,12 @@ describe("wireUpExtraction", () => {
     const doc = freshDocument();
     clickAll(doc, "genre");
 
-    const genreFilter = doc.querySelector<HTMLSelectElement>("#genre-filter");
-    if (!genreFilter) throw new Error("genre-filter select not found");
-    const horror = Array.from(genreFilter.options).find((o) => o.value === "Horror");
-    if (!horror) throw new Error('no "Horror" option in genre-filter');
-    horror.selected = true;
-    fire(genreFilter, "change");
+    const genreFilter = doc.querySelector<HTMLElement>('[data-control="genre"]');
+    if (!genreFilter) throw new Error("genre filter control not found");
+    const horror = genreFilter.querySelector<HTMLInputElement>('input[value="Horror"]');
+    if (!horror) throw new Error('no "Horror" checkbox in genre filter');
+    horror.checked = true;
+    fire(horror, "change");
 
     const expectedByGenre = gridMovies.filter((m) => m.data.genres.includes("Horror")).map((m) => m.id);
     expect(visibleGridIds(doc).sort()).toEqual(expectedByGenre.sort());

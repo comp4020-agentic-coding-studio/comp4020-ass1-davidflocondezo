@@ -122,6 +122,26 @@ button.anchor.revealed {
   margin: 0;
 }
 
+.panel-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.completion-pill {
+  padding: 0.15rem 0.6rem;
+  border: 1px solid #4caf50;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  background: #eaf7ea;
+}
+
+.completion-pill[hidden] {
+  display: none;
+}
+
 .panel-collapse-toggle {
   flex: 0 0 auto;
   padding: 0.3rem 0.75rem;
@@ -145,6 +165,11 @@ button.anchor.revealed {
 
 .panel-intro {
   color: #444;
+}
+
+.page-intro {
+  color: #444;
+  max-width: 40rem;
 }
 
 .structured-facts {
@@ -172,7 +197,7 @@ button.anchor.revealed {
   gap: 0.5rem;
 }
 
-.fact-row section[data-facet="releaseDate"]:not([hidden]) ~ section[data-facet="genre"] p::before {
+.fact-row section[data-facet="releaseDate"]:not([hidden]) ~ section[data-facet="genre"] p:first-of-type::before {
   content: "| ";
 }
 
@@ -204,6 +229,13 @@ button.anchor.revealed {
   color: #666;
 }
 
+.model-note {
+  margin: 0.15rem 0 0;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #666;
+}
+
 .catalog-layout {
   display: grid;
   grid-template-columns: 12rem 1fr;
@@ -217,8 +249,21 @@ button.anchor.revealed {
   margin: 1.5rem 0;
 }
 
+.catalog-layout.no-filters {
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "topbar"
+    "guidance"
+    "panel"
+    "grid";
+}
+
 .layout-spacer {
   grid-area: spacer;
+}
+
+.catalog-layout.no-filters .layout-spacer {
+  display: none;
 }
 
 .panel-topbar {
@@ -233,6 +278,7 @@ button.anchor.revealed {
 .search-control label {
   display: block;
   margin-bottom: 0.25rem;
+  font-size: 1.17em;
   font-weight: 600;
 }
 
@@ -301,19 +347,31 @@ button.anchor.revealed {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  min-width: 0;
 }
 
 .filter-group[hidden] {
   display: none;
 }
 
-.filter-group label {
+.filter-panel[hidden] {
+  display: none;
+}
+
+.filter-group legend {
+  padding: 0;
+  font-size: 1.17em;
   font-weight: 600;
 }
 
-.filter-group select {
-  width: 100%;
-  font: inherit;
+.filter-option {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: normal;
 }
 
 .movie-grid {

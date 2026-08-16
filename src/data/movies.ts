@@ -7,8 +7,11 @@ export const PANEL_MOVIE_ID = "alien";
 
 // Every poster is the same person's original artwork, made for this project,
 // so the credit line is identical on every record — that's accurate, not
-// lazy. `poster.url` is a relative path (no leading slash): this repo builds
-// under a GitHub Pages base path, so render code must prefix it with
+// lazy. It's structured data only (data.poster.credit, shown in
+// StructuredFacts), never woven into a blob: there's no plausible raw-import
+// sentence that would say this, so it isn't something extraction could
+// discover. `poster.url` is a relative path (no leading slash): this repo
+// builds under a GitHub Pages base path, so render code must prefix it with
 // `import.meta.env.BASE_URL` rather than treating it as root-absolute (see
 // astro.config.ts). The image files themselves don't exist yet — they're
 // hand-drawn separately and dropped into public/posters/.
@@ -121,7 +124,7 @@ const martianPlot = martianPlotSentences.join(" ");
 export const movies: MovieRecord[] = [
   {
     id: "spider-man-brand-new-day",
-    blob: `Spider-Man: Brand New Day hit theaters July 31, 2026. ${spiderManPlotSentences[0]} It's an Action/Adventure/Fantasy blockbuster directed by Destin Daniel Cretton. ${spiderManPlotSentences[1]} Tom Holland carries the whole film as Peter Parker. ${spiderManPlotSentences[2]} Zendaya returns as MJ, sharper and more guarded than before. ${spiderManPlotSentences[3]} The poster shows a lone red-and-blue silhouette dwarfed by a city that no longer recognizes him — ${POSTER_CREDIT}.`,
+    blob: `Spider-Man: Brand New Day hit theaters July 31, 2026. ${spiderManPlotSentences[0]} It's an Action/Adventure/Fantasy blockbuster directed by Destin Daniel Cretton. ${spiderManPlotSentences[1]} Tom Holland carries the whole film as Peter Parker. ${spiderManPlotSentences[2]} Zendaya returns as MJ, sharper and more guarded than before. ${spiderManPlotSentences[3]} The poster shows a lone red-and-blue silhouette dwarfed by a city that no longer recognizes him.`,
     data: {
       title: "Spider-Man: Brand New Day",
       releaseDate: "2026-07-31",
@@ -133,7 +136,7 @@ export const movies: MovieRecord[] = [
         { actor: "Zendaya", character: "MJ" },
       ],
       poster: {
-        url: "posters/spider-man-brand-new-day.jpg",
+        url: "posters/spider-man-brand-new-day.jpeg",
         alt: "a lone red-and-blue silhouette dwarfed by a city that no longer recognizes him",
         credit: POSTER_CREDIT,
       },
@@ -149,13 +152,12 @@ export const movies: MovieRecord[] = [
       ],
       poster: {
         anchor: "a lone red-and-blue silhouette dwarfed by a city that no longer recognizes him",
-        credit: POSTER_CREDIT,
       },
     },
   },
   {
     id: "the-odyssey",
-    blob: `Matt Damon anchors the whole voyage as Odysseus in The Odyssey, which premiered July 17, 2026. ${odysseyPlotSentences[0]} Anne Hathaway gives Penelope a quiet, unshakeable resolve. ${odysseyPlotSentences[1]} It's an Adventure/Fantasy/Action epic. ${odysseyPlotSentences[2]} Christopher Nolan directed the film. ${odysseyPlotSentences[3]} The poster shows a wooden ship cresting a black wave under a sky full of watching gods — ${POSTER_CREDIT}.`,
+    blob: `Matt Damon anchors the whole voyage as Odysseus in The Odyssey, which premiered July 17, 2026. ${odysseyPlotSentences[0]} Anne Hathaway gives Penelope a quiet, unshakeable resolve. ${odysseyPlotSentences[1]} It's an Adventure/Fantasy/Action epic. ${odysseyPlotSentences[2]} Christopher Nolan directed the film. ${odysseyPlotSentences[3]} The poster shows a wooden ship cresting a black wave under a sky full of watching gods.`,
     data: {
       title: "The Odyssey",
       releaseDate: "2026-07-17",
@@ -167,7 +169,7 @@ export const movies: MovieRecord[] = [
         { actor: "Anne Hathaway", character: "Penelope" },
       ],
       poster: {
-        url: "posters/the-odyssey.jpg",
+        url: "posters/the-odyssey.jpeg",
         alt: "a wooden ship cresting a black wave under a sky full of watching gods",
         credit: POSTER_CREDIT,
       },
@@ -183,13 +185,12 @@ export const movies: MovieRecord[] = [
       ],
       poster: {
         anchor: "a wooden ship cresting a black wave under a sky full of watching gods",
-        credit: POSTER_CREDIT,
       },
     },
   },
   {
     id: "the-dark-knight",
-    blob: `The Dark Knight opened July 18, 2008. ${darkKnightPlotSentences[0]} It's an Action/Crime/Drama landmark. ${darkKnightPlotSentences[1]} Christian Bale returns as Bruce Wayne, more worn down than before. Heath Ledger's Joker steals every scene he's in. ${darkKnightPlotSentences[2]} Christopher Nolan directed the film. The poster shows a cracked bat-symbol reflected in broken glass, lit by a single sickly green glow — ${POSTER_CREDIT}.`,
+    blob: `The Dark Knight opened July 18, 2008. ${darkKnightPlotSentences[0]} It's an Action/Crime/Drama landmark. ${darkKnightPlotSentences[1]} Christian Bale returns as Bruce Wayne, more worn down than before. Heath Ledger's Joker steals every scene he's in. ${darkKnightPlotSentences[2]} Christopher Nolan directed the film. The poster shows a cracked bat-symbol reflected in broken glass, lit by a single sickly green glow.`,
     data: {
       title: "The Dark Knight",
       releaseDate: "2008-07-18",
@@ -201,7 +202,7 @@ export const movies: MovieRecord[] = [
         { actor: "Heath Ledger", character: "The Joker" },
       ],
       poster: {
-        url: "posters/the-dark-knight.jpg",
+        url: "posters/the-dark-knight.jpeg",
         alt: "a cracked bat-symbol reflected in broken glass, lit by a single sickly green glow",
         credit: POSTER_CREDIT,
       },
@@ -217,13 +218,12 @@ export const movies: MovieRecord[] = [
       ],
       poster: {
         anchor: "a cracked bat-symbol reflected in broken glass, lit by a single sickly green glow",
-        credit: POSTER_CREDIT,
       },
     },
   },
   {
     id: "the-prestige",
-    blob: `Christian Bale plays the obsessive illusionist Alfred Borden in The Prestige, a Drama/Mystery/Sci-Fi puzzle box that arrived October 20, 2006. ${prestigePlotSentences[0]} Hugh Jackman is just as consumed as Robert Angier. ${prestigePlotSentences[1]} Christopher Nolan directed the film. ${prestigePlotSentences[2]} The poster shows two identical top hats facing each other across an empty stage. ${prestigePlotSentences[3]} ${POSTER_CREDIT}.`,
+    blob: `Christian Bale plays the obsessive illusionist Alfred Borden in The Prestige, a Drama/Mystery/Sci-Fi puzzle box that arrived October 20, 2006. ${prestigePlotSentences[0]} Hugh Jackman is just as consumed as Robert Angier. ${prestigePlotSentences[1]} Christopher Nolan directed the film. ${prestigePlotSentences[2]} The poster shows two identical top hats facing each other across an empty stage. ${prestigePlotSentences[3]}`,
     data: {
       title: "The Prestige",
       releaseDate: "2006-10-20",
@@ -235,7 +235,7 @@ export const movies: MovieRecord[] = [
         { actor: "Hugh Jackman", character: "Robert Angier" },
       ],
       poster: {
-        url: "posters/the-prestige.jpg",
+        url: "posters/the-prestige.jpeg",
         alt: "two identical top hats facing each other across an empty stage",
         credit: POSTER_CREDIT,
       },
@@ -251,13 +251,12 @@ export const movies: MovieRecord[] = [
       ],
       poster: {
         anchor: "two identical top hats facing each other across an empty stage",
-        credit: POSTER_CREDIT,
       },
     },
   },
   {
     id: "obsession",
-    blob: `Obsession reached US theaters May 15, 2026. ${obsessionPlotSentences[0]} Michael Johnston plays the hapless Bear. ${obsessionPlotSentences[1]} It's a Horror debut written and directed by Curry Barker. ${obsessionPlotSentences[2]} Inde Navarrette plays Nikki, the object of his wish. ${obsessionPlotSentences[3]} The poster shows a gnarled willow branch wrapped tight around a small carved charm — ${POSTER_CREDIT}.`,
+    blob: `Obsession reached US theaters May 15, 2026. ${obsessionPlotSentences[0]} Michael Johnston plays the hapless Bear. ${obsessionPlotSentences[1]} It's a Horror debut written and directed by Curry Barker. ${obsessionPlotSentences[2]} Inde Navarrette plays Nikki, the object of his wish. ${obsessionPlotSentences[3]} The poster shows a gnarled willow branch wrapped tight around a small carved charm.`,
     data: {
       title: "Obsession",
       releaseDate: "2026-05-15",
@@ -269,7 +268,7 @@ export const movies: MovieRecord[] = [
         { actor: "Inde Navarrette", character: "Nikki" },
       ],
       poster: {
-        url: "posters/obsession.jpg",
+        url: "posters/obsession.jpeg",
         alt: "a gnarled willow branch wrapped tight around a small carved charm",
         credit: POSTER_CREDIT,
       },
@@ -285,13 +284,12 @@ export const movies: MovieRecord[] = [
       ],
       poster: {
         anchor: "a gnarled willow branch wrapped tight around a small carved charm",
-        credit: POSTER_CREDIT,
       },
     },
   },
   {
     id: "shang-chi",
-    blob: `Shang-Chi and the Legend of the Ten Rings opened September 3, 2021. ${shangChiPlotSentences[0]} Simu Liu leads as Shang-Chi, trying to outrun his own name. ${shangChiPlotSentences[1]} It's an Action/Adventure/Fantasy origin story directed by Destin Daniel Cretton. ${shangChiPlotSentences[2]} Awkwafina brings dry humor as his friend Katy. ${shangChiPlotSentences[3]} The poster shows ten glowing rings suspended mid-air around a lone silhouette in a fighting stance — ${POSTER_CREDIT}.`,
+    blob: `Shang-Chi and the Legend of the Ten Rings opened September 3, 2021. ${shangChiPlotSentences[0]} Simu Liu leads as Shang-Chi, trying to outrun his own name. ${shangChiPlotSentences[1]} It's an Action/Adventure/Fantasy origin story directed by Destin Daniel Cretton. ${shangChiPlotSentences[2]} Awkwafina brings dry humor as his friend Katy. ${shangChiPlotSentences[3]} The poster shows ten glowing rings suspended mid-air around a lone silhouette in a fighting stance.`,
     data: {
       title: "Shang-Chi and the Legend of the Ten Rings",
       releaseDate: "2021-09-03",
@@ -303,7 +301,7 @@ export const movies: MovieRecord[] = [
         { actor: "Awkwafina", character: "Katy" },
       ],
       poster: {
-        url: "posters/shang-chi.jpg",
+        url: "posters/shang-chi.jpeg",
         alt: "ten glowing rings suspended mid-air around a lone silhouette in a fighting stance",
         credit: POSTER_CREDIT,
       },
@@ -319,13 +317,12 @@ export const movies: MovieRecord[] = [
       ],
       poster: {
         anchor: "ten glowing rings suspended mid-air around a lone silhouette in a fighting stance",
-        credit: POSTER_CREDIT,
       },
     },
   },
   {
     id: "creed",
-    blob: `Creed hit theaters November 25, 2015, directed by Ryan Coogler. ${creedPlotSentences[0]} Michael B. Jordan carries the film as Adonis Creed. ${creedPlotSentences[1]} It's a Drama/Sport spin-off. ${creedPlotSentences[2]} Sylvester Stallone steps back into Rocky Balboa one more time. ${creedPlotSentences[3]} The poster shows two boxers' shadows overlapping into a single fighter under gym lights — ${POSTER_CREDIT}.`,
+    blob: `Creed hit theaters November 25, 2015, directed by Ryan Coogler. ${creedPlotSentences[0]} Michael B. Jordan carries the film as Adonis Creed. ${creedPlotSentences[1]} It's a Drama/Sport spin-off. ${creedPlotSentences[2]} Sylvester Stallone steps back into Rocky Balboa one more time. ${creedPlotSentences[3]} The poster shows two boxers' shadows overlapping into a single fighter under gym lights.`,
     data: {
       title: "Creed",
       releaseDate: "2015-11-25",
@@ -337,7 +334,7 @@ export const movies: MovieRecord[] = [
         { actor: "Sylvester Stallone", character: "Rocky Balboa" },
       ],
       poster: {
-        url: "posters/creed.jpg",
+        url: "posters/creed.jpeg",
         alt: "two boxers' shadows overlapping into a single fighter under gym lights",
         credit: POSTER_CREDIT,
       },
@@ -353,13 +350,12 @@ export const movies: MovieRecord[] = [
       ],
       poster: {
         anchor: "two boxers' shadows overlapping into a single fighter under gym lights",
-        credit: POSTER_CREDIT,
       },
     },
   },
   {
     id: "the-devil-wears-prada",
-    blob: `Meryl Streep is icily commanding as Miranda Priestly in The Devil Wears Prada, which opened June 30, 2006. ${devilWearsPradaPlotSentences[0]} It's a Comedy/Drama directed by David Frankel. ${devilWearsPradaPlotSentences[1]} Anne Hathaway plays in-over-her-head assistant Andy Sachs. ${devilWearsPradaPlotSentences[2]} The poster shows a single stiletto heel poised over a stack of glossy magazine covers. ${devilWearsPradaPlotSentences[3]} ${POSTER_CREDIT}.`,
+    blob: `Meryl Streep is icily commanding as Miranda Priestly in The Devil Wears Prada, which opened June 30, 2006. ${devilWearsPradaPlotSentences[0]} It's a Comedy/Drama directed by David Frankel. ${devilWearsPradaPlotSentences[1]} Anne Hathaway plays in-over-her-head assistant Andy Sachs. ${devilWearsPradaPlotSentences[2]} The poster shows a single stiletto heel poised over a stack of glossy magazine covers. ${devilWearsPradaPlotSentences[3]}`,
     data: {
       title: "The Devil Wears Prada",
       releaseDate: "2006-06-30",
@@ -371,7 +367,7 @@ export const movies: MovieRecord[] = [
         { actor: "Anne Hathaway", character: "Andy Sachs" },
       ],
       poster: {
-        url: "posters/the-devil-wears-prada.jpg",
+        url: "posters/the-devil-wears-prada.jpeg",
         alt: "a single stiletto heel poised over a stack of glossy magazine covers",
         credit: POSTER_CREDIT,
       },
@@ -387,13 +383,12 @@ export const movies: MovieRecord[] = [
       ],
       poster: {
         anchor: "a single stiletto heel poised over a stack of glossy magazine covers",
-        credit: POSTER_CREDIT,
       },
     },
   },
   {
     id: "home-alone",
-    blob: `Home Alone opened November 16, 1990, a Comedy/Family holiday staple. ${homeAlonePlotSentences[0]} Chris Columbus directed it. ${homeAlonePlotSentences[1]} Macaulay Culkin is unforgettable as Kevin McCallister. ${homeAlonePlotSentences[2]} Joe Pesci plays the luckless burglar Harry. ${homeAlonePlotSentences[3]} The poster shows a small boy's face frozen mid-scream behind a frosted windowpane — ${POSTER_CREDIT}.`,
+    blob: `Home Alone opened November 16, 1990, a Comedy/Family holiday staple. ${homeAlonePlotSentences[0]} Chris Columbus directed it. ${homeAlonePlotSentences[1]} Macaulay Culkin is unforgettable as Kevin McCallister. ${homeAlonePlotSentences[2]} Joe Pesci plays the luckless burglar Harry. ${homeAlonePlotSentences[3]} The poster shows a small boy's face frozen mid-scream behind a frosted windowpane.`,
     data: {
       title: "Home Alone",
       releaseDate: "1990-11-16",
@@ -405,7 +400,7 @@ export const movies: MovieRecord[] = [
         { actor: "Joe Pesci", character: "Harry" },
       ],
       poster: {
-        url: "posters/home-alone.jpg",
+        url: "posters/home-alone.jpeg",
         alt: "a small boy's face frozen mid-scream behind a frosted windowpane",
         credit: POSTER_CREDIT,
       },
@@ -421,13 +416,12 @@ export const movies: MovieRecord[] = [
       ],
       poster: {
         anchor: "a small boy's face frozen mid-scream behind a frosted windowpane",
-        credit: POSTER_CREDIT,
       },
     },
   },
   {
     id: "sinners",
-    blob: `Sinners opened April 18, 2025, directed by Ryan Coogler. ${sinnersPlotSentences[0]} It's a Horror/Thriller/Drama. ${sinnersPlotSentences[1]} Michael B. Jordan plays both twins, starting with Smoke. ${sinnersPlotSentences[2]} Hailee Steinfeld plays Mary, caught up in their opening night. ${sinnersPlotSentences[3]} The poster shows two identical silhouettes playing the same guitar under a blood-red sky — ${POSTER_CREDIT}.`,
+    blob: `Sinners opened April 18, 2025, directed by Ryan Coogler. ${sinnersPlotSentences[0]} It's a Horror/Thriller/Drama. ${sinnersPlotSentences[1]} Michael B. Jordan plays both twins, starting with Smoke. ${sinnersPlotSentences[2]} Hailee Steinfeld plays Mary, caught up in their opening night. ${sinnersPlotSentences[3]} The poster shows two identical silhouettes playing the same guitar under a blood-red sky.`,
     data: {
       title: "Sinners",
       releaseDate: "2025-04-18",
@@ -439,7 +433,7 @@ export const movies: MovieRecord[] = [
         { actor: "Hailee Steinfeld", character: "Mary" },
       ],
       poster: {
-        url: "posters/sinners.jpg",
+        url: "posters/sinners.jpeg",
         alt: "two identical silhouettes playing the same guitar under a blood-red sky",
         credit: POSTER_CREDIT,
       },
@@ -455,13 +449,12 @@ export const movies: MovieRecord[] = [
       ],
       poster: {
         anchor: "two identical silhouettes playing the same guitar under a blood-red sky",
-        credit: POSTER_CREDIT,
       },
     },
   },
   {
     id: "alien",
-    blob: `Alien opened May 25, 1979. ${alienPlotSentences[0]} It's a Sci-Fi/Horror classic. ${alienPlotSentences[1]} Ridley Scott directed it. ${alienPlotSentences[2]} Sigourney Weaver holds the screen as warrant officer Ellen Ripley. ${alienPlotSentences[3]} Tom Skerritt plays ship captain Dallas. The poster shows a cracked egg-shaped pod glowing faintly inside a dark cargo hold — ${POSTER_CREDIT}.`,
+    blob: `Alien opened May 25, 1979. ${alienPlotSentences[0]} It's a Sci-Fi/Horror classic. ${alienPlotSentences[1]} Ridley Scott directed it. ${alienPlotSentences[2]} Sigourney Weaver holds the screen as warrant officer Ellen Ripley. ${alienPlotSentences[3]} Tom Skerritt plays ship captain Dallas. The poster shows a cracked egg-shaped pod glowing faintly inside a dark cargo hold.`,
     data: {
       title: "Alien",
       releaseDate: "1979-05-25",
@@ -473,7 +466,7 @@ export const movies: MovieRecord[] = [
         { actor: "Tom Skerritt", character: "Dallas" },
       ],
       poster: {
-        url: "posters/alien.jpg",
+        url: "posters/alien.jpeg",
         alt: "a cracked egg-shaped pod glowing faintly inside a dark cargo hold",
         credit: POSTER_CREDIT,
       },
@@ -489,13 +482,12 @@ export const movies: MovieRecord[] = [
       ],
       poster: {
         anchor: "a cracked egg-shaped pod glowing faintly inside a dark cargo hold",
-        credit: POSTER_CREDIT,
       },
     },
   },
   {
     id: "the-martian",
-    blob: `The Martian opened October 2, 2015. ${martianPlotSentences[0]} It's an Adventure/Drama/Sci-Fi survival story. ${martianPlotSentences[1]} Ridley Scott directed it. ${martianPlotSentences[2]} Matt Damon is stranded and resourceful as Mark Watney. ${martianPlotSentences[3]} Jessica Chastain plays mission commander Melissa Lewis. The poster shows a lone figure standing in a red dust storm beneath a distant, indifferent sun — ${POSTER_CREDIT}.`,
+    blob: `The Martian opened October 2, 2015. ${martianPlotSentences[0]} It's an Adventure/Drama/Sci-Fi survival story. ${martianPlotSentences[1]} Ridley Scott directed it. ${martianPlotSentences[2]} Matt Damon is stranded and resourceful as Mark Watney. ${martianPlotSentences[3]} Jessica Chastain plays mission commander Melissa Lewis. The poster shows a lone figure standing in a red dust storm beneath a distant, indifferent sun.`,
     data: {
       title: "The Martian",
       releaseDate: "2015-10-02",
@@ -507,7 +499,7 @@ export const movies: MovieRecord[] = [
         { actor: "Jessica Chastain", character: "Melissa Lewis" },
       ],
       poster: {
-        url: "posters/the-martian.jpg",
+        url: "posters/the-martian.jpeg",
         alt: "a lone figure standing in a red dust storm beneath a distant, indifferent sun",
         credit: POSTER_CREDIT,
       },
@@ -523,7 +515,6 @@ export const movies: MovieRecord[] = [
       ],
       poster: {
         anchor: "a lone figure standing in a red dust storm beneath a distant, indifferent sun",
-        credit: POSTER_CREDIT,
       },
     },
   },

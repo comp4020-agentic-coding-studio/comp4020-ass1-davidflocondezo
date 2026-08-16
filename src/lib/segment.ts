@@ -10,10 +10,7 @@ export type Anchor = {
   facet: FacetGroup;
   key: string;
   text: string;
-  // Whether clicking this anchor counts toward its facet's completion. Only
-  // poster.credit is excluded: Media stays a single click on the poster
-  // description, matching Component's per-item pattern rather than forcing
-  // two clicks for one facet.
+  // Whether clicking this anchor counts toward its facet's completion.
   countsTowardCompletion: boolean;
 };
 
@@ -37,7 +34,6 @@ export function collectAnchors(movie: MovieRecord): Anchor[] {
   });
 
   list.push({ facet: "media", key: "poster", text: anchors.poster.anchor, countsTowardCompletion: true });
-  list.push({ facet: "media", key: "poster.credit", text: anchors.poster.credit, countsTowardCompletion: false });
 
   anchors.plot.forEach((text, i) => {
     list.push({ facet: "plot", key: `plot:${i}`, text, countsTowardCompletion: true });
