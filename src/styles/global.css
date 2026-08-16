@@ -408,9 +408,271 @@ button.anchor.revealed {
   margin-top: 0;
 }
 
+.intro-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 3rem;
+  background: #fff;
+  transition: opacity 500ms ease;
+}
+
+.intro-screen.intro-fading {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 3rem;
+  max-width: 72rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.intro-copy h1 {
+  margin-top: 0;
+  font-size: 2.25rem;
+}
+
+.intro-copy p {
+  font-size: 1.1rem;
+  color: #444;
+}
+
+.intro-animation {
+  position: relative;
+  height: 18rem;
+}
+
+.intro-frame {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  opacity: 0;
+}
+
+.intro-frame:nth-child(1) {
+  animation: intro-cycle-1 9s ease-in-out infinite;
+}
+
+.intro-frame:nth-child(2) {
+  animation: intro-cycle-2 9s ease-in-out infinite;
+}
+
+.intro-frame:nth-child(3) {
+  animation: intro-cycle-3 9s ease-in-out infinite;
+}
+
+.intro-raw {
+  margin: 0;
+  line-height: 1.8;
+  color: #333;
+}
+
+.intro-card {
+  padding: 1rem;
+  background: #f7f7f9;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  opacity: 0;
+}
+
+.intro-frame:nth-child(1) .intro-card {
+  animation: intro-card-1 9s ease-in-out infinite;
+}
+
+.intro-frame:nth-child(2) .intro-card {
+  animation: intro-card-2 9s ease-in-out infinite;
+}
+
+.intro-frame:nth-child(3) .intro-card {
+  animation: intro-card-3 9s ease-in-out infinite;
+}
+
+.intro-card p {
+  margin: 0.25rem 0;
+}
+
+.intro-start {
+  align-self: center;
+  padding: 0.75rem 2rem;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #fff;
+  background: #3147bb;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.intro-start:hover,
+.intro-start:focus-visible {
+  background: #24399a;
+}
+
+.page-content {
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+
+.page-content.page-visible {
+  opacity: 1;
+}
+
+/* Each frame gets its own third of a shared 9s loop (0-33%/33-66%/66-99%);
+   the matching .intro-card keyframes fade in partway through that same
+   window so the structured card visibly "forms" after the raw text, not
+   alongside it. */
+@keyframes intro-cycle-1 {
+  0%,
+  4% {
+    opacity: 0;
+  }
+
+  8%,
+  29% {
+    opacity: 1;
+  }
+
+  33%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes intro-cycle-2 {
+  0%,
+  33% {
+    opacity: 0;
+  }
+
+  37%,
+  62% {
+    opacity: 1;
+  }
+
+  66%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes intro-cycle-3 {
+  0%,
+  66% {
+    opacity: 0;
+  }
+
+  70%,
+  95% {
+    opacity: 1;
+  }
+
+  99%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes intro-card-1 {
+  0%,
+  14% {
+    opacity: 0;
+  }
+
+  18%,
+  29% {
+    opacity: 1;
+  }
+
+  33%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes intro-card-2 {
+  0%,
+  47% {
+    opacity: 0;
+  }
+
+  51%,
+  62% {
+    opacity: 1;
+  }
+
+  66%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes intro-card-3 {
+  0%,
+  80% {
+    opacity: 0;
+  }
+
+  84%,
+  95% {
+    opacity: 1;
+  }
+
+  99%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-screen,
+  .intro-frame,
+  .intro-card,
+  .page-content {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .intro-frame:nth-child(1),
+  .intro-frame:nth-child(1) .intro-card {
+    opacity: 1;
+  }
+
+  .intro-frame:nth-child(2),
+  .intro-frame:nth-child(3) {
+    display: none;
+  }
+}
+
 @media (width <= 40rem) {
   body {
     padding: 1rem;
+  }
+
+  .intro-screen {
+    padding: 1.5rem;
+  }
+
+  .intro-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    overflow-y: auto;
+  }
+
+  .intro-animation {
+    height: 14rem;
   }
 
   /* .no-filters must be listed explicitly here too, matching specificity

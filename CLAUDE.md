@@ -36,6 +36,13 @@ file is the work.
 - `scrollIntoView` isn't implemented in jsdom. Any DOM-wiring code that calls it
   must feature-detect first (`typeof el.scrollIntoView === "function"`), or the
   jsdom-based tests throw.
+- Same story for `window.matchMedia` --- jsdom leaves it `undefined`. Feature-detect
+  (`typeof view.matchMedia === "function"`) before calling it. Also: don't
+  reference the bare global `window` in DOM-wiring code tested via `new
+  JSDOM(...)` outside a jsdom test environment (these `spec/*-dom.test.ts`
+  files run under vitest's `node` environment) --- derive it from the element
+  instead (`el.ownerDocument.defaultView`), or it throws `ReferenceError:
+  window is not defined`.
 - `[hidden]` is easy to lose to CSS. If a selector also sets `display` on the
   same element elsewhere in the stylesheet, that rule wins and the element
   stays visible even with the attribute present --- add an explicit
